@@ -49,5 +49,8 @@ public class CategoryController {
             return new ResponseEntity<>(categoryService.getAllCategoryByCategoryName(CategoryService.getCategoryId ((String) session.getAttribute("CategoryName"))), HttpStatus.OK);
         }
     }
+
+    
+    
 }
 
