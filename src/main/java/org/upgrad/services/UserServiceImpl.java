@@ -87,5 +87,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.findUserByID(userID);
     }
 
+    @Override
+    public String getUserPassword(int userId) {
+        return userRepository.findPasswordById(userId);
+    }
+
+    @Override
+    public void updatePassword(String newPassword, int userID) {
+        userRepository.updatePassword(newPassword,userID);
+    }
+
 
 }
