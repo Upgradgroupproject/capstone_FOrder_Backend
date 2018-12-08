@@ -14,4 +14,10 @@ public interface UserService {
     String findUserPassword(String contactNumber);
 
     User findUser(String contactNumber);
+    public boolean matchExpression(String option,String values);
+    public String getContactNumber(String contactNumber);
+    public void createUsers(String firstName,String lastName,String emailField,String contactNumber,String password );
+
+
+
 }

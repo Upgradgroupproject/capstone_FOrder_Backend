@@ -28,9 +28,9 @@ public class UserController {
     private UserAuthTokenService userAuthTokenService;
 
     /*
-    * This endpoint is used to login a user.
-    * Here contact number and password has to be provided to match the credentials.
-    */
+     * This endpoint is used to login a user.
+     * Here contact number and password has to be provided to match the credentials.
+     */
     @PostMapping("/login")
     @CrossOrigin
     public ResponseEntity<?> login(@RequestParam String contactNumber, @RequestParam String password){
@@ -56,9 +56,9 @@ public class UserController {
     }
 
     /*
-    * This endpoint is used to logout a user.
-    * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
-    */
+     * This endpoint is used to logout a user.
+     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
+     */
     @PutMapping("/logout")
     @CrossOrigin
     public ResponseEntity<String> logout(@RequestHeader String accessToken){
@@ -70,6 +70,38 @@ public class UserController {
         }  else{
             userAuthTokenService.removeAccessToken(accessToken);
             return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);}
+    }
+    @PostMapping("/signup")
+    @CrossOrigin
+    public ResponseEntity<?> signup(@RequestParam String firstName, String lastName,@RequestParam String emailField,@RequestParam
+            String contactNumber,@RequestParam String password)
+    {
+        String contactNumberExists=String.valueOf(userService.getContactNumber(contactNumber)).toString();
+        Boolean boolEmailByUser=userService.matchExpression("email",emailField);
+      /*  if(contactNumberExists!=null)
+        {
+            return new ResponseEntity<>("Try any other contact number ,this contact number has already been used!! ", HttpStatus.UNAUTHORIZED);
+        }*/
+        if(!userService.matchExpression("contact",contactNumber))
+        {
+            return new ResponseEntity<>("Invalid contact Number! ", HttpStatus.UNAUTHORIZED);
+        }
+        else if(!boolEmailByUser)
+        {
+            return new ResponseEntity<>("Invalid Email!!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(!userService.matchExpression("password",password))
+        {
+            return new ResponseEntity<>("Invalid Password!!", HttpStatus.UNAUTHORIZED);
+        }
+        else
+        {
+            String sha256hex = Hashing.sha256()
+                    .hashString(password, Charsets.US_ASCII)
+                    .toString();
+            userService.createUsers(firstName,lastName,emailField,contactNumber,sha256hex);
+        }
+        return new ResponseEntity<>("User with contact number "+contactNumber+" create",HttpStatus.CREATED);
     }
 
 }
