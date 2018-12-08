@@ -24,7 +24,7 @@ public class ItemController {
     @Autowired
     ItemService ItemService;
     @GetMapping("/api/item/restaurant/{restaurantId}")
-    public ResponseEntity<?> getRestaurantByRestaurantId(@RequestParam("RestaurantId") int RestaurantId, HttpSession session) {
+    public ResponseEntity<?> getAlltRestaurantitemsByRestaurantId(@RequestParam("RestaurantId") int RestaurantId, HttpSession session) {
 
         if (session.getAttribute("Restaurant")==null) {
             return new ResponseEntity<>("No Restaurant by this id!", HttpStatus.NOCONTENT);
@@ -32,7 +32,7 @@ public class ItemController {
 
         else {
 
-            return new ResponseEntity<>(RestaurantService.getRestaurantByRestaurantId(RestaurantId), HttpStatus.OK);
+            return new ResponseEntity<>(RestaurantService.getAlltRestaurantitemsByRestaurantId(RestaurantId), HttpStatus.OK);
         }
     }
 	@RequestMapping(value = "/")
