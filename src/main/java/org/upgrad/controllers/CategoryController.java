@@ -36,6 +36,18 @@ public class CategoryController {
 		model.addObject("listCategory", listCategory);
 		//model.setViewName("home");
 		return model;
-	}
+    }
+    
+    @GetMapping("/api/category/{categoryName}")
+    public ResponseEntity<?> getAllCategoryByCategoryName(HttpSession session) {
+
+        if (session.getAttribute("categoryName")==null) {
+            return new ResponseEntity<>("No Category by this name!", HttpStatus.NOTFOUND);
+        }
+
+        else {
+            return new ResponseEntity<>(categoryService.getAllCategoryByCategoryName(CategoryService.getCategoryId ((String) session.getAttribute("CategoryName"))), HttpStatus.OK);
+        }
+    }
 }
 
