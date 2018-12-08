@@ -19,6 +19,8 @@ public interface UserService {
     public void createUsers(String firstName,String lastName,String emailField,String contactNumber,String password );
     public void updateUser(String firstName,String lastName,int userID);
     User findByUserID(int userID);
+    public String getUserPassword(int userId);
+    public void updatePassword(String newPassword,int userID);
 
 
 
