@@ -77,5 +77,15 @@ public class UserServiceImpl implements UserService{
         userRepository.createUser(firstName, lastName, emailField, contactNumber,password);
     }
 
+    @Override
+    public void updateUser(String firstName, String lastName, int userID) {
+        userRepository.updateUser(firstName,lastName,userID);
+    }
+
+    @Override
+    public User findByUserID(int userID) {
+        return userRepository.findUserByID(userID);
+    }
+
 
 }

@@ -104,4 +104,26 @@ public class UserController {
         return new ResponseEntity<>("User with contact number "+contactNumber+" create",HttpStatus.CREATED);
     }
 
+    @PutMapping("/user")
+    @CrossOrigin
+    public ResponseEntity<?> update(@RequestParam String firstName,@RequestParam String lastName, @RequestParam String accessToken)
+    {
+        if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+            int userID=userAuthTokenService.getUserID(accessToken);
+            userService.updateUser(firstName,lastName,userID);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            User user = userService.findByUserID(userID);
+            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+        }
+    }
+
 }

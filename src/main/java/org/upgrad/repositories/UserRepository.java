@@ -28,5 +28,13 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Modifying
     @Query(nativeQuery = true,value = "INSERT  INTO USERS(firstname,lastname,email,contact_number,password) values (?1,?2,?3,?4,?5)")
     void createUser(String firstName,String lastName,String emailField,String contactNumber,String sha256hex );
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "update USERS set firstname=(?1) , lastname=(?2) where id=(?3)")
+    void updateUser(String firstName,String lastName,int userID );
+
+    @Query(nativeQuery = true,value = "SELECT * FROM USERS WHERE id=?1")
+    User findUserByID(int userID);
 }
 
