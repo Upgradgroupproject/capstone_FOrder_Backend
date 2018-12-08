@@ -7,7 +7,7 @@ import org.upgrad.models.Item;
 
 
 @Repository
-public interface ItemRepository extends CrudRepository{
+public interface ItemRepository extends CrudRepository<Item,Integer>{
 
     @Query(nativeQuery = true,value="SELECT * from ITEM WHERE ID=?1")
     Item findItemById(int id);
