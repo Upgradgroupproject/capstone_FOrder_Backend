@@ -65,8 +65,8 @@ public class OrderController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> addOrder(@RequestParam("addressId") Integer addressId,
-                                      String flatBuilNo, String locality, String city, String zipcode, Integer stateId,
+    public ResponseEntity<?> addOrder(Integer addressId,String flatBuilNo, String locality,
+                                      String city, String zipcode, Integer stateId,
                                       String type, @RequestParam("paymentId") Integer paymentId,
                                       @RequestBody ArrayList<ItemQuantity> itemQuantities, @RequestParam("bill") Double bill,
                                       Integer couponId, @RequestParam("discount") Double discount,

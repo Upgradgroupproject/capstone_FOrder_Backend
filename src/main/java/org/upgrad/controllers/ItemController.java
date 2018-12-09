@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.upgrad.models.Item;
+import org.upgrad.models.Restaurant;
 import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 import org.upgrad.services.ItemService;
 import org.upgrad.services.RestaurantService;
@@ -28,7 +29,7 @@ public class ItemController {
     @GetMapping("/restaurant/{restaurantId}")
     public ResponseEntity<?> getItemByRestaurantId(@PathVariable("restaurantId") int restaurantId) {
 
-        RestaurantResponseCategorySet restaurantInfo = restaurantService.getRestaurantDetails(restaurantId);
+        Restaurant restaurantInfo = restaurantService.getRestaurantById (restaurantId);
 
         if (restaurantInfo == null) {
             return new ResponseEntity<>("No Restaurant by this id!", HttpStatus.BAD_REQUEST);
