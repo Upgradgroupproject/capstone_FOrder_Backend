@@ -20,4 +20,7 @@ public interface UserAddressRepository extends CrudRepository<UserAddress,Intege
 
     @Query(nativeQuery = true,value = "Select address_id from user_address where user_id=(?1) and type='perm'")
     List<Integer> getAddressId(int userId);
+
+    @Query(nativeQuery = true,value = "Select * from user_address where user_id=(?1) and type='perm'")
+    List<Address> getPermAddress(int userId);
 }
