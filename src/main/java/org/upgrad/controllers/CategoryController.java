@@ -20,12 +20,12 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/category")
+    @GetMapping("")
     public ResponseEntity<?> getAllCategories() {
         return new ResponseEntity<> (categoryService.getAllCategories (), HttpStatus.OK);
     }
 
-    @GetMapping("/category/{categoryName}")
+    @GetMapping("/{categoryName}")
     public ResponseEntity<?> getCategoriesByName(@PathVariable("categoryName") String categoryName) {
 
         Category category = categoryService.getCategory (categoryName);

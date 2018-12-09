@@ -51,7 +51,9 @@ public class RestaurantController {
     public ResponseEntity<?> getAllRestaurantByCategory(@PathVariable("categoryName") String categoryName) {
 
         if (("catergoryname") == null) {
+
             return new ResponseEntity<> ("No Restaurant under this category!", HttpStatus.NOT_FOUND);
+
         } else {
 
             List<RestaurantResponse> restaurantResponse = restaurantService.getRestaurantByCategory(categoryName);

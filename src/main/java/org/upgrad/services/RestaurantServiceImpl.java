@@ -26,47 +26,94 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     private RestaurantResponseCategorySet restaurantResponseCategorySet;
 
+
     @Override
     public List<RestaurantResponse> getAllRestaurant() {
 
         restaurants = restaurantRepository.getAllRestaurant ();
 
-        Set<CategoryResponse> categorySet = new HashSet<> ();
-        for (Restaurant restaurant : restaurants) {
+        restaurantResponseList = new ArrayList<>();
 
-            List<Category> categories = restaurant.getRestaurantCategories ();
-            for (Category category:categories) {
+        for (Restaurant restaurant: restaurants) {
+            int categories = 0;
+            List<String> restaurantCategory = new ArrayList<String> ();
 
-                CategoryResponse categoryResponse = new CategoryResponse(category.getId(), category.getCategoryName(), category.getItems());
-                categorySet.add(categoryResponse);
-
+            for (Category category : restaurant.getRestaurantCategories ()) {
+                if (restaurant.getRestaurantCategories().size() > categories) {
+                    restaurantCategory.add (category.getCategoryName());
+                    categories++;
+                } else {
+                    restaurantCategory.add(category.getCategoryName());
+                }
             }
 
             RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
                     restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
-                    restaurant.getNumberUsersRated(), restaurant.getAddress(), categories.toString());
-
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), restaurantCategory.toString());
             restaurantResponseList.add(restaurantResponse);
 
         }
 
-
-
         return restaurantResponseList;
     }
+
 
     @Override
     public List<RestaurantResponse> getRestaurantByName(String restaurantName) {
 
-        restaurant = restaurantRepository.getRestaurantByName(restaurantName);
-        //this.restaurantResponseList = restaurants;
+        restaurants = restaurantRepository.getRestaurantByName (restaurantName);
+
+        restaurantResponseList = new ArrayList<>();
+
+        for (Restaurant restaurant: restaurants) {
+            int categories = 0;
+            List<String> restaurantCategory = new ArrayList<String> ();
+
+            for (Category category : restaurant.getRestaurantCategories ()) {
+                if (restaurant.getRestaurantCategories().size() > categories) {
+                    restaurantCategory.add (category.getCategoryName());
+                    categories++;
+                } else {
+                    restaurantCategory.add(category.getCategoryName());
+                }
+            }
+
+            RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), restaurantCategory.toString());
+            restaurantResponseList.add(restaurantResponse);
+
+        }
+
         return restaurantResponseList;
     }
 
     @Override
     public List<RestaurantResponse> getRestaurantByCategory(String categoryName) {
-        //restaurants = restaurantRepository.findRestaurantByCategory(categoryName);
-        //this.restaurantResponseList = restaurants;
+        restaurants = restaurantRepository.getRestaurantByCategory(categoryName);
+
+        restaurantResponseList = new ArrayList<>();
+
+        for (Restaurant restaurant: restaurants) {
+            int categories = 0;
+            List<String> restaurantCategory = new ArrayList<String> ();
+
+            for (Category category : restaurant.getRestaurantCategories ()) {
+                if (restaurant.getRestaurantCategories().size() > categories) {
+                    restaurantCategory.add (category.getCategoryName());
+                    categories++;
+                } else {
+                    restaurantCategory.add(category.getCategoryName());
+                }
+            }
+
+            RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), restaurantCategory.toString());
+            restaurantResponseList.add(restaurantResponse);
+
+        }
+
         return restaurantResponseList;
     }
 

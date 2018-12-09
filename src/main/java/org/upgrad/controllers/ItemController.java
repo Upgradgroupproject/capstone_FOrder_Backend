@@ -32,6 +32,7 @@ public class ItemController {
         Restaurant restaurantInfo = restaurantService.getRestaurantById (restaurantId);
 
         if (restaurantInfo == null) {
+
             return new ResponseEntity<>("No Restaurant by this id!", HttpStatus.BAD_REQUEST);
 
         } else {
