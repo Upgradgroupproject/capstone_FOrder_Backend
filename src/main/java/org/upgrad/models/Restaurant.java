@@ -1,5 +1,8 @@
 package org.upgrad.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -25,8 +28,18 @@ public class Restaurant {
     @Column(name = "number_of_users_rated")
     private Integer numberUsersRated;
 
-    //@Column(name="address_id",nullable = false)
-    //private Address address;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id", nullable = false)
+    private Address address;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "restaurant_category",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> restaurantCategories ;
+
+
 
     public Restaurant() {
 
@@ -80,11 +93,19 @@ public class Restaurant {
         this.numberUsersRated = numberUsersRated;
     }
 
-//    public Address getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(Address address) {
-//        this.address = address;
-//    }
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Category> getRestaurantCategories() {
+        return restaurantCategories;
+    }
+
+    public void setRestaurantCategories(List<Category> restaurantCategories) {
+        this.restaurantCategories = restaurantCategories;
+    }
 }
