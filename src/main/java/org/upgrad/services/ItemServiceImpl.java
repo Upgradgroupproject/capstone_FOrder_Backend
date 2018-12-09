@@ -13,15 +13,24 @@ public class ItemServiceImpl implements ItemService{
     @Autowired
     ItemRepository itemRepository;
 
+    public ItemServiceImpl(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
+
     @Override
     public List<Item> getItemByPopularity(int restaurantId) {
-
-        // depends on restaurant ID
-        return null;
+        return null;//from restaurant
     }
 
     @Override
     public Item getItemById(int id) {
         return itemRepository.findItemById(id);
     }
+
+    @Override
+    public List<Item> getTop5ItemsByPopularity(int restaurantId) {
+        return itemRepository.findTop5ItemsByPopularity(restaurantId);
+    }
+
+
 }

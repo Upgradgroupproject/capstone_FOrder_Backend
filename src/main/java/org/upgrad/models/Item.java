@@ -11,17 +11,14 @@ import java.util.List;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
-        private String itemName;
+    private String itemName;
 
-        private int price;
+    private int price;
 
-        private String type;
+    private String type;
 
-//        @JsonIgnore
-//        @ManyToMany(mappedBy = "items")
-//        private List<Category> categories;
 
     public int getId() {
         return id;
@@ -54,27 +51,21 @@ public class Item {
     public void setType(String type) {
         this.type = type;
     }
-    
-    public Item(){
+
+    public Item() {
     }
-    
-    public Item(int restaurantId){
+
+    public Item(int restaurantId) {
         this.restaurantId = restaurantId;
     }
 
-    public Integer getTop5ItemsbyPopularity(integer id ){
-        return retaurantId; 
-    }
-    public void setTop5ItemsbyPopularity(Integer id){
-        this.id=retaurantId;
+    public Integer getTop5ItemsbyPopularity(integer id) {
+        return retaurantId;
     }
 
-//    public List<Category> getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(List<Category> categories) {
-//        this.categories = categories;
-//    }
+    public void setTop5ItemsbyPopularity(Integer id) {
+        this.id = retaurantId;
+    }
+    
 }
 
