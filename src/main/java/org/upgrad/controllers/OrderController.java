@@ -83,13 +83,12 @@ public class OrderController {
 
         } else {
 
-            Integer placedOrderId; 
+            Integer placedOrderId;
             Integer userId = userAuthTokenService.getUserId(accessToken);
 
             if (addressId ==null) {
 
                 if (zipcode == null || addressService.validateZipAddress (zipcode)) {
-
                     return new ResponseEntity<>("Invalid zip code!", HttpStatus.BAD_REQUEST);
                 }
                 placedOrderId = orderService.addOrder(flatBuilNo, locality, city, zipcode, stateId, type,
