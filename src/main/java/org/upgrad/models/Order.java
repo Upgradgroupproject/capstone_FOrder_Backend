@@ -37,10 +37,8 @@ public class Order {
     @JoinColumn(name = "address_id", nullable = false)
     private Address addressId;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-//    private List<OrderItem> orderItemList;
-
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
+    private List<OrderItem> orderItemList;
 
     public Order() {
 
@@ -110,11 +108,11 @@ public class Order {
         this.addressId = addressId;
     }
 
-//    public List<OrderItem> getOrderItemList() {
-//        return orderItemList;
-//    }
-//
-//    public void setOrderItemList(List<OrderItem> orderItemList) {
-//        this.orderItemList = orderItemList;
-//    }
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
 }
