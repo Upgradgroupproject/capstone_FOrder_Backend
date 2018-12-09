@@ -1,115 +1,111 @@
 package org.upgrad.controllers;
 
-import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.upgrad.models.Restaurant;
+import org.upgrad.models.UserAuthToken;
+import org.upgrad.requestResponseEntity.RestaurantResponse;
+import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
+import org.upgrad.services.CategoryService;
+import org.upgrad.services.RestaurantService;
+import org.upgrad.services.UserAuthTokenService;
+
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.jboss.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-package org.upgrad.model.Restaurant.java;
-package org.upgrad.service.RestaurantService.java;
-
-@Controller
-
+@RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
-    @Autowired
-    RestaurantService RestaurantService;
 
     @Autowired
-    CategoryService CategoryService;
+    private RestaurantService restaurantService;
 
+    private RestaurantResponseCategorySet restaurantResponseCategorySet;
 
+    private Restaurant restaurant;
 
-    @GetMapping("/api/restaurant")
-    public ResponseEntity<?> getAllRestaurant(HttpSession session) {
+    @Autowired
+    private UserAuthTokenService userAuthTokenService;
 
-        if (session.getAttribute("Restaurant")!==null) {
-        return new ResponseEntity<>(RestaurantService.getAllRestaurant(RestaurantService.getRestaurantId ((String))), HttpStatus.OK);
+    @GetMapping("/restaurant")
+    public ResponseEntity<?> getAllRestaurant() {
+
+        return new ResponseEntity<> (restaurantService.getAllRestaurant (), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/restaurant/name/{restaurantName}")
+    public ResponseEntity<?> getRestaurantByName(@PathVariable("RestaurantName") String restaurantName) {
+
+        if (("restaurantName") == null) {
+            return new ResponseEntity<> ("No Restaurant under this name!", HttpStatus.NOT_FOUND);
+        } else {
+
+            return new ResponseEntity<> (restaurantService.getRestaurantByName (restaurantName), HttpStatus.OK);
         }
     }
 
-    @RequestMapping(value = "/")
-	public ModelAndView listRestaturant(ModelAndView model) throws IOException {
-		List<Restaurant> listRestaturant = RestaurantService.getAllRestaurant();
-		model.addObject("listRestaturant", listRestaturant);
-		//model.setViewName("home");
-		return model;
-    }
-    @GetMapping("/api/restaurant/name/{restaurantName}")
-    public ResponseEntity<?> getRestaurantByName(@RequestParam("RestaurantName") int restaurantName, HttpSession session) {
+    @GetMapping("/restaurant/category/{categoryName}")
+    public ResponseEntity<?> getAllRestaurantByCategory(@PathVariable("categoryName") String categoryName) {
 
-        if (session.getAttribute("restaurantName")==null) {
-            return new ResponseEntity<>("No Restaurant under this name!", HttpStatus.NOTFOUND);
-        }
+        if (("catergoryname") == null) {
+            return new ResponseEntity<> ("No Restaurant under this category!", HttpStatus.NOT_FOUND);
+        } else {
 
-        else {
+            List<RestaurantResponse> restaurantResponse = restaurantService.getRestaurantByCategory (categoryName);
 
-            return new ResponseEntity<>(RestaurantService.getRestaurantByName(restaurantName), HttpStatus.OK);
-        }
-    }
+            if (restaurantResponse == null || restaurantResponse.size () == 0) {
+                return new ResponseEntity<> ("No Restaurant by this name!", HttpStatus.NOT_FOUND);
+            } else {
 
-    @GetMapping("/api/restaurant/category/{categoryName}")
-    public ResponseEntity<?> getAllRestaurantByCategory(@RequestParam("categoryName") String categoryName, HttpSession session) {
-
-        if (session.getAttribute("catergoryname")==null) {
-            return new ResponseEntity<>("No Restaurant under this category!", HttpStatus.NOTFOUND);
-        }
-
-        else {
-
-            return new ResponseEntity<>(RestaurantService.getAllRestaurantByCategory(categoryName), HttpStatus.OK);
-        }
-    }
-    @GetMapping("/api/restaurant/{restaurantId}")
-    public ResponseEntity<?> getRestaurantByRestaurantId(@RequestParam("restaurantId") int restaurantId,HttpSession session) {
-
-            if(RestaurantService.checkRestaurantEntry (restaurantId) > 0){
-                return new ResponseEntity<>(RestaurantService.getRestaurantByRestaurantId(restaurantId), HttpStatus.OK);
-            }
-            else{
-                return new ResponseEntity<>("No Restaurant by this id! " + restaurantId, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<> (restaurantService.getRestaurantByCategory (categoryName), HttpStatus.OK);
             }
         }
-        @PutMapping("/api/restaurant/{restaurantId}")
-        public ResponseEntity<?> updateRestaurantDetails(@RequestParam("Details") String DetailsBody,@RequestParam("restaurantId") int restaurantId,HttpSession session) {
-    
-    
-    
-    
-            if (session.getAttribute("currUser")==null) {
-                return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
-            }
-    
-            else {
-    
-                if(RestaurantService.checkDetailsEntry (restaurantId) > 0){
-                    String userRole = userService.getCurrentUserRole((String) session.getAttribute("currUser"));
-                    int userId = RestaurantService.findRestaurant(restaurantId);
-    
-                    if(userId == (userService.getUserID ((String) session.getAttribute("currUser"))) || userRole.equalsIgnoreCase ("admin")){
-    
-                        restaurantService.updateRestaurantDetails (restaurantId,DetailsBody);
-                        return new ResponseEntity<>("update with restaurantId "+restaurantId + " edited successfully", HttpStatus.OK);
-                    }
-    
-                    else{
-                        return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint! ", HttpStatus.UNAUTHORIZED);
-                    }
-                }
-                else{
-                        return new ResponseEntity<>("No Restaurant by this id! " + restaurantId, HttpStatus.NOT_FOUND);
-                    }
-    
-            }
-    
     }
 
+    @GetMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> getRestaurantByRestaurantId(@RequestParam("restaurantId") int restaurantId) {
 
+        if (restaurantService.getRestaurantById (restaurantId) == null) {
+            return new ResponseEntity<> (restaurantService.getRestaurantById (restaurantId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<> ("No Restaurant by this id! " + restaurantId, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> updateRestaurantDetails(@RequestParam("rating") String rating, @PathVariable("restaurantId") int restaurantId,
+                                                     @RequestHeader String accessToken) {
+
+
+        if (userAuthTokenService.isUserLoggedIn (accessToken) == null) {
+
+            return new ResponseEntity<> ("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+
+        } else if (userAuthTokenService.isUserLoggedIn (accessToken).getLogoutAt () != null) {
+
+            return new ResponseEntity<> ("You have already logged out. Please Login first to access this endpoint!",
+                    HttpStatus.UNAUTHORIZED);
+
+        } else {
+
+            RestaurantResponseCategorySet restaurantResponseCategorySet = restaurantService.getRestaurantDetails (restaurantId);
+
+            if (restaurantResponseCategorySet == null) {
+
+                return new ResponseEntity<> ("No Restaurant by this id!", HttpStatus.NOT_FOUND);
+
+            } else {
+
+                Restaurant restaurant = restaurantService.updateRating (Integer.parseInt (rating), restaurantId);
+                return new ResponseEntity<> (restaurant, HttpStatus.OK);
+            }
+        }
+
+
+    }
 }
+
+
