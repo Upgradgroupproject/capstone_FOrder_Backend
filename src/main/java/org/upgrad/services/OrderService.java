@@ -16,7 +16,7 @@ public interface OrderService {
     Integer addOrderWithPermAddress(Integer addressId, Integer paymentId, Integer userId, ArrayList<ItemQuantity> itemQuantities,
                                     double bill, Integer couponId, double discount);
 
-    Integer addOrder(String flatBuilNo, String locality, String city, String zipcode, Integer stateId, String type, Integer paymentId,
+    Integer addOrder(String flatBuilNo, String locality, String city, String zipCode, Integer stateId, String type, Integer paymentId,
                      Integer userId, List<ItemQuantity> itemQuantities, double bill, Integer couponId, double discount);
 
 }
