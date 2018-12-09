@@ -32,16 +32,6 @@ public class Category {
     public Category() {
     }
 
-    public Category(String categoryName, Set<Item> items) {
-        this.categoryName = categoryName;
-        this.items = items;
-    }
-
-    public Category(String CategoryName) {
-        this.categoryName = CategoryName;
-
-    }
-
     public Integer getId() {
         return id;
     }
@@ -66,4 +56,11 @@ public class Category {
         this.items = items;
     }
 
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
 }
