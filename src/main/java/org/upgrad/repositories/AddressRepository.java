@@ -18,7 +18,7 @@ public interface AddressRepository extends CrudRepository<Address,Integer>{
     @Query(nativeQuery = true,value="INSERT into address(flat_buil_number,locality,city,zipcode,state_id) values(?1,?2,?3,?4,?5)")
     void addAddress(String flatBuiltNumber, String locality, String city, String zipcode, int state_id);
 
-    @Query(nativeQuery = true,value = "select COUNT(*) from address")
+    @Query(nativeQuery = true,value = "SELECT id from address order by id desc limit 1")
     int getAddressId();
 
     @Query(nativeQuery = true,value = "Select * from address where id=(?1)")
@@ -31,5 +31,11 @@ public interface AddressRepository extends CrudRepository<Address,Integer>{
 
     @Query(nativeQuery = true, value = "SELECT id FROM address ORDER BY id DESC limit 1")
     Integer findLastAddedAddress();
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "delete from address where id=(?1)")
+    void deleteAddress(int addressId);
+
 
 }

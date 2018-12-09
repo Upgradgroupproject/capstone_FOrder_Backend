@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
 import org.upgrad.services.AddressService;
+import org.upgrad.services.StateService;
 import org.upgrad.services.UserAuthTokenService;
 
 import java.util.ArrayList;
@@ -20,6 +22,13 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private StateService stateService;
+
+    /*
+     * This endpoint is used to insert the address of a user
+     * Access token is used here for authentication purpose so that only logged in customer is able to add the address
+     */
     @PostMapping("address")
     @CrossOrigin
     public ResponseEntity<?> addAddrss(@RequestParam String flatBuildingNumber,@RequestParam String locality, @RequestParam String city
@@ -55,6 +64,10 @@ public class AddressController {
         return new ResponseEntity<>("Address has been saved successfully!",HttpStatus.OK);
     }
 
+    /*
+     * This endpoint is used to get the address detail of a user who have provided their permanent address.
+     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
+     */
     @GetMapping("/address/user")
     @CrossOrigin
     public ResponseEntity<?> getAllPermanentAddress(@RequestParam String accessToken) {
@@ -71,7 +84,7 @@ public class AddressController {
                 return new ResponseEntity<>("No permanent address found!", HttpStatus.NOT_FOUND);
             } else {
                 for (int i = 0; i < lstAddressId.size(); i++) {
-                    lstPermAddress.add(addressService.getAddress(lstAddressId.get(i)));
+                    lstPermAddress.add(addressService.getAddressByID(lstAddressId.get(i)));
                 }
             }
 
@@ -79,6 +92,10 @@ public class AddressController {
         return new ResponseEntity<>(lstPermAddress,HttpStatus.OK);
 
     }
+    /*
+     * This endpoint is used get the address based on address id provided
+     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
+     */
     @PutMapping("/address/{addressId}")
     @CrossOrigin
     public ResponseEntity<?> updateAddress(String flatBuildingNumber, String locality,  String city
@@ -96,8 +113,8 @@ public class AddressController {
                 return new ResponseEntity<>("Invalid zip code!",HttpStatus.UNAUTHORIZED);
             }
             else{
-                Address strIsAddressPresent=addressService.getAddress(addressId);
-                if(strIsAddressPresent!=null)
+                Boolean strIsAddressPresent=addressService.getAddress(addressId);
+                if(strIsAddressPresent)
                 {
                     addressService.updateAddress(flatBuildingNumber,locality,city,zipcode,stateId,addressId);
                 }
@@ -110,6 +127,44 @@ public class AddressController {
         }
         return new ResponseEntity<>("Address has been updated successfully!",HttpStatus.CREATED);
 
+    }
+    /*
+     * This endpoint is used to delete a user based on their user id
+     * Authentication is required to access this endpoint, so accessToken is taken as request header to make sure user is authenticated.
+     */
+    @DeleteMapping("/address/{addressId}")
+    @CrossOrigin
+    public ResponseEntity<?> deleteAddress(@RequestParam int addressId, @RequestParam String accessToken)
+    {
+        if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+            Boolean strIsAddressPresent=addressService.getAddress(addressId);
+            if(strIsAddressPresent)
+            {
+                addressService.deleteAddress(addressId);
+            }
+            else
+            {
+                return new ResponseEntity<>("No address with this address id!",HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>("Address has been deleted successfully!",HttpStatus.OK);
+    }
+
+    /*
+     * This endpoint is used to get all the states.
+     *
+     */
+    @GetMapping("states")
+    @CrossOrigin
+    public ResponseEntity<?> getAllStates()
+    {
+        List<States> lstStates=addressService.getAllStates();
+        return new ResponseEntity<>(lstStates,HttpStatus.OK);
     }
 
 }

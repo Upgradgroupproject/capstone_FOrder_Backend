@@ -71,17 +71,22 @@ public class UserController {
             userAuthTokenService.removeAccessToken(accessToken);
             return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);}
     }
+    /*
+     * This endpoint is used to signup a new user.
+     * here we are checking if the number is already used or not if it is already used,Appropriate error message is thrown
+     * If no is not used we are validating the password and zipcode and then inserting it into DB
+     */
     @PostMapping("/signup")
     @CrossOrigin
     public ResponseEntity<?> signup(@RequestParam String firstName, String lastName,@RequestParam String emailField,@RequestParam
             String contactNumber,@RequestParam String password)
     {
-        String contactNumberExists=String.valueOf(userService.getContactNumber(contactNumber)).toString();
+        String contactNumberExists=userService.getContactNumber(contactNumber);
         Boolean boolEmailByUser=userService.matchExpression("email",emailField);
-      /*  if(contactNumberExists!=null)
+        if(contactNumberExists!=null)
         {
             return new ResponseEntity<>("Try any other contact number ,this contact number has already been used!! ", HttpStatus.UNAUTHORIZED);
-        }*/
+        }
         if(!userService.matchExpression("contact",contactNumber))
         {
             return new ResponseEntity<>("Invalid contact Number! ", HttpStatus.UNAUTHORIZED);
@@ -101,9 +106,13 @@ public class UserController {
                     .toString();
             userService.createUsers(firstName,lastName,emailField,contactNumber,sha256hex);
         }
-        return new ResponseEntity<>("User with contact number "+contactNumber+" create",HttpStatus.CREATED);
+        return new ResponseEntity<>("User with contact number "+contactNumber+" created",HttpStatus.CREATED);
     }
 
+    /*
+     * This endpoint is used to update the first name and last name of the logged in user
+     * Access token we are using here to check if the user is logged in . If he is logged in the appropriate action is performed
+     */
     @PutMapping("/user")
     @CrossOrigin
     public ResponseEntity<?> update(@RequestParam String firstName,@RequestParam String lastName, @RequestParam String accessToken)
@@ -121,10 +130,14 @@ public class UserController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            User user = userService.findByUserID(userID);
+            User user = userService.getUserById(userID);
             return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
         }
     }
+    /*
+     * This endpoint is used to update the password of a user
+     * Access token is used to make sure only authenticated user is allowed to do this operation
+     */
     @PutMapping("/password")
     @CrossOrigin
     public ResponseEntity<?> updatePassword(@RequestParam String oldPassword,@RequestParam String newPassword,@RequestParam String accessToken )

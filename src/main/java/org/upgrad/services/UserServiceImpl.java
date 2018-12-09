@@ -81,12 +81,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(String firstName, String lastName, int userID) {
+    public User updateUser(String firstName, String lastName, int userID) {
         userRepository.updateUser(firstName,lastName,userID);
+        return userRepository.findUserByID(userID);
     }
 
     @Override
-    public User findByUserID(int userID) {
+    public User getUserById(int userID) {
         return userRepository.findUserByID(userID);
     }
 
