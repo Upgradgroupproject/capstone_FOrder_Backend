@@ -1,56 +1,41 @@
 package org.upgrad.controllers;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import org.jboss.logging.Logger;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-package org.upgrad.model.Category;
-package org.upgrad.service.CategoryService;
+import org.springframework.web.bind.annotation.RestController;
+import org.upgrad.models.Category;
+import org.upgrad.services.CategoryService;
 
 @RestController
-@RequestMapping("/Category")
+@RequestMapping("/category")
 
 
 public class CategoryController {
-    @Autowired
 
+    @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/api/category")
-    public ResponseEntity<?> getAllCategory(HttpSession session) {
-
-        if (session.getAttribute("Category")!==null) {
-        return new ResponseEntity<>(categoryService.getAllCategory(categoryService.getCategoryId ((String))), HttpStatus.OK);
-        }
+    @GetMapping("/category")
+    public ResponseEntity<?> getAllCategories() {
+        return new ResponseEntity<> (categoryService.getAllCategories (), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/")
-	public ModelAndView listCategory(ModelAndView model) throws IOException {
-		List<Category> listCategory = CategoryService.getAllCategory();
-		model.addObject("listCategory", listCategory);
-		//model.setViewName("home");
-		return model;
-    }
-    
-    @GetMapping("/api/category/{categoryName}")
-    public ResponseEntity<?> getAllCategoryByCategoryName(HttpSession session) {
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<?> getCategoriesByName(@PathVariable("categoryName") String categoryName) {
 
-        if (session.getAttribute("categoryName")==null) {
-            return new ResponseEntity<>("No Category by this name!", HttpStatus.NOTFOUND);
+        Category category = categoryService.getCategory (categoryName);
+        if (category != null) {
+            return new ResponseEntity<> (category, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<> ("No Category by this name!", HttpStatus.NOT_FOUND);
         }
 
-        else {
-            return new ResponseEntity<>(categoryService.getAllCategoryByCategoryName(CategoryService.getCategoryId ((String) session.getAttribute("CategoryName"))), HttpStatus.OK);
-        }
     }
 
-    
-    
 }
 

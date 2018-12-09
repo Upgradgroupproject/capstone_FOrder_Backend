@@ -1,7 +1,11 @@
 package org.upgrad.services;
 
 
+import org.upgrad.models.Category;
+
+import java.util.List;
+
 public interface CategoryService {
-    List<Category> getAllCategory();
-    List<Category> getAllCategoryByCategoryName(CategoryName);   
+    List<Category> getAllCategories();
+    Category getCategory(String categoryName);
 }
