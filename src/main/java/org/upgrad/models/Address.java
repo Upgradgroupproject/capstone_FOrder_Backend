@@ -42,6 +42,8 @@ public class Address {
         this.zipcode = zipcode;
         this.state_id = state_id;
     }
+    public Address()
+    {}
 
     public String getFlat_buil_number() {
         return flat_buil_number;
