@@ -12,6 +12,12 @@ import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 
 import java.util.*;
 
+/*
+ * Services/ Methods to call Repository or SQL scripts, these services are called from Restaurant controller
+ *
+ * */
+
+
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
 
@@ -26,6 +32,14 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     private RestaurantResponseCategorySet restaurantResponseCategorySet;
 
+
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return List<RestaurantResponse>
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds category information
+     *         and returns List<RestaurantResponse>
+     * */
 
     @Override
     public List<RestaurantResponse> getAllRestaurant() {
@@ -58,6 +72,13 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
 
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return List<RestaurantResponse>
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds category information
+     *         and returns List<RestaurantResponse>
+     * */
     @Override
     public List<RestaurantResponse> getRestaurantByName(String restaurantName) {
 
@@ -88,6 +109,13 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurantResponseList;
     }
 
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return List<RestaurantResponse>
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds category information
+     *         and returns List<RestaurantResponse>
+     * */
     @Override
     public List<RestaurantResponse> getRestaurantByCategory(String categoryName) {
         restaurants = restaurantRepository.getRestaurantByCategory(categoryName);
@@ -124,6 +152,13 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurant;
     }
 
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return RestaurantResponseCategorySet
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds categorySet information
+     *         and returns RestaurantResponseCategorySet
+     * */
     @Override
     public RestaurantResponseCategorySet getRestaurantDetails(int id) {
         Restaurant restaurant = restaurantRepository.getRestaurantByRestaurantId (id);

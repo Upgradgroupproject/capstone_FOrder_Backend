@@ -15,6 +15,12 @@ import org.upgrad.services.RestaurantService;
 
 import java.util.List;
 
+
+/*
+ * This endpoint is to check popular item by a restaurant
+ *     restaurant Id is needed
+ */
+
 @RestController
 @RequestMapping("/item")
 public class ItemController {
