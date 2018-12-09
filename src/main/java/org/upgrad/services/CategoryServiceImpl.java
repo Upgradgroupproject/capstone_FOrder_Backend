@@ -21,11 +21,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategories() {
-        return null;
+
+        return categoryRepository.getAllCategory ();
     }
 
     @Override
     public Category getCategory(String categoryName) {
+
         return categoryRepository.findCategoryByName (categoryName);
     }
 

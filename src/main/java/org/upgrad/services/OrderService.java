@@ -2,9 +2,11 @@ package org.upgrad.services;
 
 import org.upgrad.models.Coupon;
 import org.upgrad.models.Order;
+import org.upgrad.models.OrderItem;
 import org.upgrad.requestResponseEntity.ItemQuantity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
@@ -13,11 +15,15 @@ public interface OrderService {
 
     List<Order> getOrdersByUser(Integer userId);
 
-    Integer addOrderWithPermAddress(Integer addressId, Integer paymentId, Integer userId, ArrayList<ItemQuantity> itemQuantities,
+    Integer addOrderWithPermAddress(Integer addressId, Integer paymentId, Integer userId,
+                                    ArrayList<ItemQuantity> itemQuantities,
                                     double bill, Integer couponId, double discount);
 
     Integer addOrder(String flatBuilNo, String locality, String city, String zipcode, Integer stateId, String type, Integer paymentId,
-                     Integer userId, List<ItemQuantity> itemQuantities, double bill, Integer couponId, double discount);
+                     Integer userId, List<ItemQuantity> itemQuantities,
+                     double bill, Integer couponId, double discount);
+
+
 
 }
 
