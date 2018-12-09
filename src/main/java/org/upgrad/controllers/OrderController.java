@@ -58,7 +58,7 @@ public class OrderController {
 
     @PostMapping("")
     public ResponseEntity<?> addOrder(@RequestParam("addressId") Integer addressId,
-                                      String flatBuilNo, String locality, String city, String zipCode, Integer stateId,
+                                      String flatBuilNo, String locality, String city, String zipcode, Integer stateId,
                                       String type, @RequestParam("paymentId") Integer paymentId,
                                       @RequestBody ArrayList<ItemQuantity> itemQuantities, @RequestParam("bill") Double bill,
                                       Integer couponId, @RequestParam("discount") Double discount,
@@ -80,11 +80,11 @@ public class OrderController {
 
             if (addressId ==null) {
 
-                if (zipCode == null || addressService.validateZipAddress (zipCode)) {
+                if (zipcode == null || addressService.validateZipAddress (zipcode)) {
 
-                    return new ResponseEntity<>("Invalid zipcode!", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("Invalid zip code!", HttpStatus.BAD_REQUEST);
                 }
-                placedOrderId = orderService.addOrder(flatBuilNo, locality, city, zipCode, stateId, type,
+                placedOrderId = orderService.addOrder(flatBuilNo, locality, city, zipcode, stateId, type,
                         paymentId, userId, itemQuantities, bill, couponId, discount);
 
                 return new ResponseEntity<>(placedOrderId, HttpStatus.OK);
