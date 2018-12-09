@@ -1,34 +1,69 @@
 package org.upgrad.services;
 
-public class RestaurantServiceImpl{
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.upgrad.models.Restaurant;
+import org.upgrad.repositories.RestaurantRepository;
+import org.upgrad.requestResponseEntity.RestaurantResponse;
+import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
+
+import java.util.List;
+
+@Service
+public class RestaurantServiceImpl implements RestaurantService{
+
+    //@Autowired
+    //private RestaurantRepository restaurantRepository;
+
+    private List<RestaurantResponse> restaurantResponseList;
+
+    private List<Restaurant> restaurants;
+
+    private RestaurantResponseCategorySet restaurantResponseCategorySet;
 
     @Override
-    public List<Restaurant> getAllRestaurant() {
-        return RestaurantRepository.getAllRestaurant();
+    public List<RestaurantResponse> getAllRestaurant() {
+
+        // to update
+        //restaurants = restaurantRepository.findAllRestaurant();
+        //this.restaurantResponseList = restaurants;
+        return restaurantResponseList;
     }
+
     @Override
-    public Restaurant getRestaurantByName(String RestaurantName) {
-        return RestaurantRepository.getRestaurantByName (RestaurantName);
+    public List<RestaurantResponse> getRestaurantByName(String restaurantName) {
+
+        //restaurants = restaurantRepository.findRestaurantByName(restaurantName);
+        //this.restaurantResponseList = restaurants;
+        return restaurantResponseList;
     }
+
     @Override
-    public List<Restaurant> getAllRestaurantByCategory(String categoryName) {
-        return RestaurantRepository.getAllRestaurantByCategory(categoryName);
+    public List<RestaurantResponse> getRestaurantByCategory(String categoryName) {
+        //restaurants = restaurantRepository.findRestaurantByCategory(categoryName);
+        //this.restaurantResponseList = restaurants;
+        return restaurantResponseList;
     }
 
     @Override
-    public Restaurant getRestaurantByRestaurantId(int restaurantId) {
-        return RestaurantRepository.getRestaurantByRestaurantId (restaurantId);
+    public RestaurantResponseCategorySet getRestaurantDetails(int restaurantId) {
+        return null;
     }
+
     @Override
-    public int checkDetailsEntry(int restaurantId) {
+    public Restaurant getRestaurantById(int restaurantId){
+        Restaurant restaurant = new Restaurant ();
+        //Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+        return restaurant;
+    }
 
-        Long restaurantId = RestaurantRepository.checkDetailsEntry (restaurantId);
+    @Override
+    public Restaurant updateRating(int restaurantRating, int restaurantId) {
 
-        if (restaurantId == null) {
-            return 0;
-        } else
-            return restaurantId.intValue ();
-
-
+        Restaurant restaurant = new Restaurant ();
+        //Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+        //to implement
+        return restaurant;
     }
 }

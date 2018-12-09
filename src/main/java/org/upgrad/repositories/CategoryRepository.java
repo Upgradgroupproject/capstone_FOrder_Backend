@@ -1,6 +1,5 @@
 package org.upgrad.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +21,10 @@ public interface CategoryRepository extends CrudRepository<Category,Integer> {
 
     @Query(nativeQuery = true,value="select * from question where user_id=?1")
     List<Category> getAllCategoryByCategoryName(String categoryName);
+  
+
+    @Query(nativeQuery = true, value = "SELECT * FROM CATEGORY WHERE category_name = ?1")
+    Category findCategoryByName(String name);
+  
 }
+

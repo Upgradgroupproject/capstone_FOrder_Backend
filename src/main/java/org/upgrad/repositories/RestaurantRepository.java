@@ -32,11 +32,6 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     @Query(nativeQuery = true,value ="select DETAILS.det,DETAILS.date,DETAILS.user_id,DETAILS.restaurantId,DETAILS.modifiedOn,count(*) from RESTAURANT,LIKES where RESTAURANT.ID=LIKES.restaurantId and LIKES.USER_ID=(?2) group by restaurantId order by count(*) desc")
     void updateRestaurantDetails(int restaurantId , String DetailsBody);
    
-  
-
-
-
-
 }
 
 

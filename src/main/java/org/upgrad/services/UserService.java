@@ -17,6 +17,11 @@ public interface UserService {
     public boolean matchExpression(String option,String values);
     public String getContactNumber(String contactNumber);
     public void createUsers(String firstName,String lastName,String emailField,String contactNumber,String password );
+    public void updateUser(String firstName,String lastName,int userID);
+    User findByUserID(int userID);
+    public String getUserPassword(int userId);
+    public void updatePassword(String newPassword,int userID);
+    public void addAddressType(String type, int user_id, int address_id);
 
 
 

@@ -3,6 +3,7 @@ package org.upgrad.services;
 import org.springframework.stereotype.Service;
 import org.upgrad.models.User;
 import org.upgrad.models.UserAuthToken;
+import org.upgrad.repositories.AddressRepository;
 import org.upgrad.repositories.UserAuthTokenRepository;
 import org.upgrad.repositories.UserRepository;
 
@@ -17,8 +18,10 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
     @Override
@@ -75,6 +78,31 @@ public class UserServiceImpl implements UserService{
     @Override
     public void createUsers(String firstName, String lastName, String emailField, String contactNumber, String password) {
         userRepository.createUser(firstName, lastName, emailField, contactNumber,password);
+    }
+
+    @Override
+    public void updateUser(String firstName, String lastName, int userID) {
+        userRepository.updateUser(firstName,lastName,userID);
+    }
+
+    @Override
+    public User findByUserID(int userID) {
+        return userRepository.findUserByID(userID);
+    }
+
+    @Override
+    public String getUserPassword(int userId) {
+        return userRepository.findPasswordById(userId);
+    }
+
+    @Override
+    public void updatePassword(String newPassword, int userID) {
+        userRepository.updatePassword(newPassword,userID);
+    }
+
+    @Override
+    public void addAddressType(String type, int user_id, int address_id) {
+
     }
 
 
