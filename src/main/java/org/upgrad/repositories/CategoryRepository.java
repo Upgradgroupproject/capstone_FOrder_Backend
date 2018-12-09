@@ -18,7 +18,7 @@ public interface CategoryRepository extends CrudRepository<Category,Integer> {
     List<Category> getAllCategoryByCategoryName(String categoryName);
 
 
-    @Query(nativeQuery = true, value = "SELECT * FROM CATEGORY WHERE category_name = ?1")
+    @Query(nativeQuery = true, value = "select * from category where category_name ILIKE %?1%")
     Category findCategoryByName(String name);
 
 }
