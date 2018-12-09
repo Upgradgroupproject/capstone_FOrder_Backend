@@ -1,61 +1,90 @@
 package org.upgrad.models;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Restaurant")
-public class Restaurant {
-    @Column(name = "Restaurantname", nullable = false)
-    private String RestaurantName;
 
-    @Column(name = "Categoryname")
-    private String CategoryName;
+@Entity
+@Table(name = "restaurant")
+public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer RestaurantId;
-}
-public User(String RestaurantName, String CategoryName, Integer RestaurantId, String contactNumber, String password) {
-    this.RestaurantName = RestauranttName;
-    this.CategoryName = CategoryName;
-    this.RestaurantId = RestaurantId;
-  
-}
+    private Integer id;
 
-public Integer getAllRestaurant() {
-    return RestaurantName;
-}
+    @Column(name = "restaurant_name", nullable = false)
+    private String restaurantName;
 
-public void setAllRestaurant() {
-    this.RestaurantName = RestaurantName;
-}
+    @Column(name="photo_url")
+    private String photoUrl;
 
-public String getRestaurantName() {
-    return RestaurantName;
-}
+    @Column(name="user_rating")
+    private Double userRating;
 
-public void setRestaurantName(String RestaurantName) {
-    this.RestaurantName = RestaurantName;
-}
+    @Column(name = "average_price_for_two")
+    private Integer avgPrice;
 
-public String getRestaurantbyCategoryName() {
-    return CategoryName;
-}
+    @Column(name = "number_of_users_rated")
+    private Integer numberUsersRated;
 
-public void setRestaurantbyCategoryName(String CategoryName) {
-    this.CategoryName = CategoryName;
-}
+    @Column(name="address_id",nullable = false)
+    private Address address;
 
-public Integer getRestaurantByRestaurantId() {
-    return RestaurantId;
-}
+    public Restaurant() {
 
-public void setRestaurantByRestaurantId(Integer RestaurantId ) {
-    this.RestaurantId = RestaurantId;
-}
+    }
 
-public String PutRestaurantDetails() {
-    return RestaurantId;
-}
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public Double getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(Double userRating) {
+        this.userRating = userRating;
+    }
+
+    public Integer getAvgPrice() {
+        return avgPrice;
+    }
+
+    public void setAvgPrice(Integer avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+    public Integer getNumberUsersRated() {
+        return numberUsersRated;
+    }
+
+    public void setNumberUsersRated(Integer numberUsersRated) {
+        this.numberUsersRated = numberUsersRated;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }
