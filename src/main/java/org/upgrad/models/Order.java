@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="orders")
@@ -17,7 +18,7 @@ public class Order {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "coupon_id", nullable = false)
-    private Coupon coupon;
+    private Coupon couponId;
 
     private double discount;
 
@@ -25,16 +26,20 @@ public class Order {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id", nullable = false)
-    private Payment payment;
+    private Payment paymentId;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private User userId;
 
-//    @OneToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "address_id", nullable = false)
-//    private Address address;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id", nullable = false)
+    private Address addressId;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+//    private List<OrderItem> orderItemList;
+
 
 
     public Order() {
@@ -58,18 +63,18 @@ public class Order {
     }
 
     public Coupon getCoupon() {
-        return coupon;
+        return couponId;
     }
 
     public void setCoupon(Coupon coupon) {
-        this.coupon = coupon;
+        this.couponId = coupon;
     }
 
     public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
 
@@ -82,27 +87,34 @@ public class Order {
     }
 
     public Payment getPayment() {
-        return payment;
+        return paymentId;
     }
 
     public void setPayment(Payment payment) {
-        this.payment = payment;
+        this.paymentId = payment;
     }
 
     public User getUser() {
-        return user;
+        return userId;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.userId = user;
     }
 
-//    public Address getAddress() {
-//        return address;
+    public Address getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Address addressId) {
+        this.addressId = addressId;
+    }
+
+//    public List<OrderItem> getOrderItemList() {
+//        return orderItemList;
 //    }
 //
-//    public void setAddress(Address address) {
-//        this.address = address;
+//    public void setOrderItemList(List<OrderItem> orderItemList) {
+//        this.orderItemList = orderItemList;
 //    }
-
 }

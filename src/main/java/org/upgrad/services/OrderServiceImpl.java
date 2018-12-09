@@ -2,6 +2,7 @@ package org.upgrad.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.upgrad.models.Coupon;
 import org.upgrad.models.Item;
 import org.upgrad.models.Order;
@@ -12,22 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService{
 
-    @Autowired
     private CouponRepository couponRepository;
 
-    //private AddressRepository addressRepository;
+    private AddressRepository addressRepository;
+    private UserAddressRepository userAddressRepository;
 
-    @Autowired
     private OrderRepository orderRepository;
-
-    @Autowired
     private ItemRepository itemRepository;
 
-    public OrderServiceImpl(CouponRepository couponRepository, OrderRepository orderRepository, ItemRepository itemRepository) {
+    public OrderServiceImpl(CouponRepository couponRepository, AddressRepository addressRepository,
+                            UserAddressRepository userAddressRepository, OrderRepository orderRepository, ItemRepository itemRepository) {
         this.couponRepository = couponRepository;
-       // this.addressRepository = addressRepository;
+        this.addressRepository = addressRepository;
+        this.userAddressRepository = userAddressRepository;
         this.orderRepository = orderRepository;
         this.itemRepository = itemRepository;
     }
@@ -64,10 +65,28 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Integer addOrder(String flatBuilNo, String locality, String city, String zipCode, Integer stateId, String type,
+    public Integer addOrder(String flatBuilNumber, String locality, String city, String zipCode, Integer stateId, String type,
                             Integer paymentId, Integer userId, List<ItemQuantity> itemQuantities, double bill, Integer couponId,
                             double discount) {
 
-        return 1;
+        addressRepository.addAddress(flatBuilNumber, locality, city, zipCode, stateId);
+
+        Integer lastAddedAddressId = addressRepository.findLastAddedAddress();
+        if (type == null || type.equals("")) {
+            type = "temp";
+        }
+        userAddressRepository.addAddressType(type, userId, lastAddedAddressId);
+        orderRepository.saveOrder(couponId, discount, bill, userId, paymentId,  lastAddedAddressId);
+
+        Integer latestOrderId = orderRepository.findLatestOrderId();
+
+        for (ItemQuantity itemQuantity: itemQuantities) {
+
+            Item item = itemRepository.findItemById (itemQuantity.getItemId());
+            double totalPrice = item.getPrice() * itemQuantity.getQuantity();
+            orderRepository.saveOrderItem(latestOrderId, itemQuantity.getItemId(), itemQuantity.getQuantity(), totalPrice);
+        }
+
+        return latestOrderId;
     }
 }

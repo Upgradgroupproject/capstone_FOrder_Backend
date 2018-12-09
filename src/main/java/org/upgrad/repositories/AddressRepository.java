@@ -29,5 +29,7 @@ public interface AddressRepository extends CrudRepository<Address,Integer>{
     @Query(nativeQuery = true,value = "update address set flat_buil_number=(?1),locality=(?2),city=(?3),zipcode=(?4),state_id=(?5) where id=(?6) ")
     void updateAddress(String flatBuiltNumber, String locality, String city, String zipcode, int state_id,int addressId);
 
+    @Query(nativeQuery = true, value = "SELECT id FROM address ORDER BY id DESC limit 1")
+    Integer findLastAddedAddress();
 
 }
