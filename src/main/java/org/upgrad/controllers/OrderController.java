@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Coupon;
+import org.upgrad.models.Order;
 import org.upgrad.requestResponseEntity.ItemQuantity;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.OrderService;
 import org.upgrad.services.UserAuthTokenService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -33,7 +35,13 @@ public class OrderController {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
 
-            return new ResponseEntity<>("in progress", HttpStatus.OK);
+            Integer userId = userAuthTokenService.getUserId(accessToken);
+            List<Order> orderPlaced = orderService.getOrdersByUser(userId);
+            if (orderPlaced.size ()==0) {
+                return new ResponseEntity<>("No orders have been made yet!", HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(orderPlaced, HttpStatus.OK);
+            }
         }
 
     }
