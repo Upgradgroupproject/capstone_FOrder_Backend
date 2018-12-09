@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.upgrad.models.Address;
 import org.upgrad.models.UserAddress;
 
+import java.util.List;
+
 @Repository
 public interface UserAddressRepository extends CrudRepository<UserAddress,Integer> {
 
@@ -15,4 +17,7 @@ public interface UserAddressRepository extends CrudRepository<UserAddress,Intege
     @Modifying
     @Query(nativeQuery = true,value="INSERT into user_address(type,user_id,address_id) values(?1,?2,?3)")
     void addAddressType(String type, int user_id, int address_id);
+
+    @Query(nativeQuery = true,value = "Select address_id from user_address where user_id=(?1) and type='perm'")
+    List<Integer> getAddressId(int userId);
 }

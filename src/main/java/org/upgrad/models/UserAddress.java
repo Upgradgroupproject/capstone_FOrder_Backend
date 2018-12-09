@@ -21,6 +21,8 @@ public class UserAddress {
         this.user_id = user_id;
         this.address_id = address_id;
     }
+    public UserAddress()
+    {}
 
     public Integer getId() {
         return id;

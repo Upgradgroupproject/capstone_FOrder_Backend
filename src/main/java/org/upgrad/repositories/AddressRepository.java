@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.upgrad.models.Address;
 
+import java.util.List;
+
 @Repository
 public interface AddressRepository extends CrudRepository<Address,Integer>{
 
@@ -18,5 +20,14 @@ public interface AddressRepository extends CrudRepository<Address,Integer>{
 
     @Query(nativeQuery = true,value = "select COUNT(*) from address")
     int getAddressId();
+
+    @Query(nativeQuery = true,value = "Select * from address where id=(?1)")
+    Address getAddress(int addressId);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true,value = "update address set flat_buil_number=(?1),locality=(?2),city=(?3),zipcode=(?4),state_id=(?5) where id=(?6) ")
+    void updateAddress(String flatBuiltNumber, String locality, String city, String zipcode, int state_id,int addressId);
+
 
 }
