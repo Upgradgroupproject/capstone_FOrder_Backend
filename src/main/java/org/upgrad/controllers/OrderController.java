@@ -83,7 +83,7 @@ public class OrderController {
 
         } else {
 
-            Integer placedOrderId; // to return
+            Integer placedOrderId; 
             Integer userId = userAuthTokenService.getUserId(accessToken);
 
             if (addressId ==null) {
