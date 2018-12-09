@@ -21,6 +21,7 @@ public interface UserService {
     User findByUserID(int userID);
     public String getUserPassword(int userId);
     public void updatePassword(String newPassword,int userID);
+    public void addAddressType(String type, int user_id, int address_id);
 
 
 
