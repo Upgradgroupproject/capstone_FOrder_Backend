@@ -11,17 +11,18 @@ import org.upgrad.services.UserAuthTokenService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/payment")
+@RequestMapping("/payment")
 public class PaymentController {
 
     @Autowired
     private UserAuthTokenService userAuthTokenService;
 
+    @Autowired
     private PaymentService paymentService;
 
 
     @GetMapping("")
-    public ResponseEntity<?> paymentMethod(@RequestParam String accessToken) {
+    public ResponseEntity<?> paymentMethod(@RequestHeader String accessToken) {
 
         if (userAuthTokenService.isUserLoggedIn(accessToken) == null) {
 
