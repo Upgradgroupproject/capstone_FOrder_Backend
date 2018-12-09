@@ -3,6 +3,8 @@ package org.upgrad.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,22 +20,16 @@ public class Category {
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "category_item",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @JoinTable(name = "category_item", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private Set<Item> items;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "restaurantCategories")
+    private List<Restaurant> restaurants ;
+
+
+
     public Category() {
-    }
-
-    public Category(String categoryName, Set<Item> items) {
-        this.categoryName = categoryName;
-        this.items = items;
-    }
-
-    public Category(String CategoryName) {
-        this.categoryName = CategoryName;
-
     }
 
     public Integer getId() {
@@ -60,4 +56,11 @@ public class Category {
         this.items = items;
     }
 
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(List<Restaurant> restaurants) {
+        this.restaurants = restaurants;
+    }
 }

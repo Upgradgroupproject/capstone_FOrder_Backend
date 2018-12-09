@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Coupon;
+import org.upgrad.models.Order;
 import org.upgrad.requestResponseEntity.ItemQuantity;
 import org.upgrad.services.AddressService;
 import org.upgrad.services.OrderService;
 import org.upgrad.services.UserAuthTokenService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -33,7 +35,13 @@ public class OrderController {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
 
-            return new ResponseEntity<>("in progress", HttpStatus.OK);
+            Integer userId = userAuthTokenService.getUserId(accessToken);
+            List<Order> orderPlaced = orderService.getOrdersByUser(userId);
+            if (orderPlaced.size ()==0) {
+                return new ResponseEntity<>("No orders have been made yet!", HttpStatus.NOT_FOUND);
+            } else {
+                return new ResponseEntity<>(orderPlaced, HttpStatus.OK);
+            }
         }
 
     }
@@ -58,7 +66,7 @@ public class OrderController {
 
     @PostMapping("")
     public ResponseEntity<?> addOrder(@RequestParam("addressId") Integer addressId,
-                                      String flatBuilNo, String locality, String city, String zipCode, Integer stateId,
+                                      String flatBuilNo, String locality, String city, String zipcode, Integer stateId,
                                       String type, @RequestParam("paymentId") Integer paymentId,
                                       @RequestBody ArrayList<ItemQuantity> itemQuantities, @RequestParam("bill") Double bill,
                                       Integer couponId, @RequestParam("discount") Double discount,
@@ -80,11 +88,11 @@ public class OrderController {
 
             if (addressId ==null) {
 
-                if (zipCode == null || addressService.validateZipAddress (zipCode)) {
+                if (zipcode == null || addressService.validateZipAddress (zipcode)) {
 
-                    return new ResponseEntity<>("Invalid zipcode!", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("Invalid zip code!", HttpStatus.BAD_REQUEST);
                 }
-                placedOrderId = orderService.addOrder(flatBuilNo, locality, city, zipCode, stateId, type,
+                placedOrderId = orderService.addOrder(flatBuilNo, locality, city, zipcode, stateId, type,
                         paymentId, userId, itemQuantities, bill, couponId, discount);
 
                 return new ResponseEntity<>(placedOrderId, HttpStatus.OK);

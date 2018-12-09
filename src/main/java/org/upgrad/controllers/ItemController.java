@@ -26,7 +26,7 @@ public class ItemController {
 
 
     @GetMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<?> getItemByRestaurantId(@PathVariable("RestaurantId") int restaurantId) {
+    public ResponseEntity<?> getItemByRestaurantId(@PathVariable("restaurantId") int restaurantId) {
 
         RestaurantResponseCategorySet restaurantInfo = restaurantService.getRestaurantDetails(restaurantId);
 
