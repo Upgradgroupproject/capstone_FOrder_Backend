@@ -1,45 +1,43 @@
 package org.upgrad.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.upgrad.models.Item;
+import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
+import org.upgrad.services.ItemService;
+import org.upgrad.services.RestaurantService;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.jboss.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-package org.upgrad.model.Item;
-package org.upgrad.service.ItemService;
-
-
-
 @RestController
-@RequestMapping("/api/item/restaurant/{restaurantId}")
+@RequestMapping("/item")
 public class ItemController {
+
     @Autowired
-    ItemService ItemService;
-    @GetMapping("/api/item/restaurant/{restaurantId}")
-    public ResponseEntity<?> getAlltRestaurantitemsByRestaurantId(@RequestParam("RestaurantId") int RestaurantId, HttpSession session) {
+    ItemService itemService;
 
-        if (session.getAttribute("Restaurant")==null) {
-            return new ResponseEntity<>("No Restaurant by this id!", HttpStatus.NOCONTENT);
-        }
+    @Autowired
+    RestaurantService restaurantService;
 
-        else {
 
-            return new ResponseEntity<>(RestaurantService.getAlltRestaurantitemsByRestaurantId(RestaurantId), HttpStatus.OK);
+    @GetMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> getItemByRestaurantId(@PathVariable("RestaurantId") int restaurantId) {
+
+        RestaurantResponseCategorySet restaurantInfo = restaurantService.getRestaurantDetails(restaurantId);
+
+        if (restaurantInfo == null) {
+            return new ResponseEntity<>("No Restaurant by this id!", HttpStatus.BAD_REQUEST);
+
+        } else {
+
+            List<Item> popularItems = itemService.getTop5ItemsByPopularity(restaurantId);
+            return new ResponseEntity<>(popularItems, HttpStatus.OK);
         }
     }
-	@RequestMapping(value = "/")
-	public ModelAndView listitem(ModelAndView model) throws IOException {
-		List<Item> listItem = ItemService.getAllItem(4);
-		model.addObject("listItem", listItem);
-		model.setViewName("");
-		return model;
-	}
+
 }

@@ -25,8 +25,8 @@ public class Restaurant {
     @Column(name = "number_of_users_rated")
     private Integer numberUsersRated;
 
-    @Column(name="address_id",nullable = false)
-    private Address address;
+    //@Column(name="address_id",nullable = false)
+    //private Address address;
 
     public Restaurant() {
 
@@ -80,11 +80,11 @@ public class Restaurant {
         this.numberUsersRated = numberUsersRated;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+//    public Address getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(Address address) {
+//        this.address = address;
+//    }
 }
