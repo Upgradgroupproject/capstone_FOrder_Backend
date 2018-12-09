@@ -8,4 +8,6 @@ public interface ItemService {
 
     List<Item> getItemByPopularity(int restaurantId);
     Item getItemById(int id);
+
+    List<Item> getTop5ItemsByPopularity(int restaurantId) ;
 }
