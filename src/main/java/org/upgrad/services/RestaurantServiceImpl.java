@@ -29,9 +29,29 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Override
     public List<RestaurantResponse> getAllRestaurant() {
 
-        // to update
         restaurants = restaurantRepository.getAllRestaurant ();
-        //this.getRestaurantResponseList(restaurants);
+
+        Set<CategoryResponse> categorySet = new HashSet<> ();
+        for (Restaurant restaurant : restaurants) {
+
+            List<Category> categories = restaurant.getRestaurantCategories ();
+            for (Category category:categories) {
+
+                CategoryResponse categoryResponse = new CategoryResponse(category.getId(), category.getCategoryName(), category.getItems());
+                categorySet.add(categoryResponse);
+
+            }
+
+            RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), categories.toString());
+
+            restaurantResponseList.add(restaurantResponse);
+
+        }
+
+
+
         return restaurantResponseList;
     }
 

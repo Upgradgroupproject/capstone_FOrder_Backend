@@ -22,7 +22,7 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     Restaurant getRestaurantByName(String RestaurantName);
 
     @Query(nativeQuery = true,value="select * from restaurant where categoryname=?")
-    Restaurant getRestaurantByCategory(String CategoryName);
+    List<Restaurant> getRestaurantByCategory(String CategoryName);
 
     @Query(nativeQuery = true,value="select * from restaurant where id=?1")
     Restaurant getRestaurantByRestaurantId(int restaurantId);
