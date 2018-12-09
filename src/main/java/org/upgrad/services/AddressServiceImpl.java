@@ -3,7 +3,9 @@ package org.upgrad.services;
 
 import org.springframework.stereotype.Service;
 import org.upgrad.models.Address;
+import org.upgrad.models.States;
 import org.upgrad.repositories.AddressRepository;
+import org.upgrad.repositories.StateRepository;
 import org.upgrad.repositories.UserAddressRepository;
 import org.upgrad.repositories.UserRepository;
 
@@ -17,10 +19,12 @@ import java.util.regex.Pattern;
 public class AddressServiceImpl implements AddressService{
     private final AddressRepository addressRepository;
     public final UserAddressRepository userAddressRepository;
+    private final StateRepository stateRepository;
 
-    public AddressServiceImpl(AddressRepository addressRepository,UserAddressRepository userAddressRepository) {
+    public AddressServiceImpl(AddressRepository addressRepository,UserAddressRepository userAddressRepository,StateRepository stateRepository) {
         this.addressRepository = addressRepository;
         this.userAddressRepository=userAddressRepository;
+        this.stateRepository=stateRepository;
     }
 
     @Override
@@ -54,8 +58,13 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public Address getAddress(int addressId) {
-        return addressRepository.getAddress(addressId);
+    public Boolean getAddress(int addressId) {
+        if(addressRepository.getAddress(addressId)!=null)
+        {
+            return true;
+        }
+        else return false;
+
     }
 
     @Override
@@ -65,6 +74,21 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public void deleteAddress(int addressId) {
         addressRepository.deleteAddress(addressId);
+    }
+
+    @Override
+    public Address getAddressByID(int addressId) {
+        return addressRepository.getAddress(addressId);
+    }
+
+    @Override
+    public List<Address> getPermAddress(int userId) {
+        return userAddressRepository.getPermAddress(userId);
+    }
+
+    @Override
+    public List<States> getAllStates() {
+        return stateRepository.getAllStates();
     }
 
 }

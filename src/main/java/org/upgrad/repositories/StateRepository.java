@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface StateRepository extends CrudRepository<States,Integer> {
 
-    @Query(nativeQuery = true,value="Select distinct(state_name) from states")
-    List<String> getAllStates();
+    @Query(nativeQuery = true,value="Select * from states")
+    List<States> getAllStates();
 
 }

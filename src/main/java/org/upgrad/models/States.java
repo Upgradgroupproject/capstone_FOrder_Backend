@@ -12,10 +12,10 @@ public class States {
     private Integer id;
 
     @Column(name = "state_name")
-    private String state_name;
+    private String StateName;
 
     public States(String state_name) {
-        this.state_name = state_name;
+        this.StateName = state_name;
     }
 
     public States() {
@@ -26,17 +26,20 @@ public class States {
         return id;
     }
 
+
+    public String getStateName() {
+        return StateName;
+    }
+
+    public void setStateName(String stateName) {
+        StateName = stateName;
+    }
+
     public void setId(Integer id) {
         this.id = id;
+
     }
 
-    public String getState_name() {
-        return state_name;
-    }
-
-    public void setState_name(String state_name) {
-        this.state_name = state_name;
-    }
 
 
 
