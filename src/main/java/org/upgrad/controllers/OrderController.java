@@ -14,6 +14,14 @@ import org.upgrad.services.UserAuthTokenService;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * This endpoint is used to check and place Orders
+ * Access token is used here for authentication purpose so that only logged in customer is able to check the old orders or place order
+ * Coupon Id can be checked by {couponName}"
+ */
+
+
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {

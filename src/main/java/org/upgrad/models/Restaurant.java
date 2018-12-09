@@ -5,6 +5,15 @@ import javax.persistence.*;
 import java.util.List;
 
 
+/***
+ * Restaurant model as per the relation to Restaurants
+ *             includes category table and needed column as per schema, including java persistence bindings,
+ *                          restaurant_name,poto_url,user_rating,avg_price,user_rating,address,category
+ *                      default constructor,
+ *                      getter and setter
+ * **/
+
+
 @Entity
 @Table(name = "restaurant")
 public class Restaurant {

@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.upgrad.models.Category;
 import org.upgrad.services.CategoryService;
 
+
+/*
+ * This endpoint is used to insert check Categories available and respective ids
+ *
+ */
+
 @RestController
 @RequestMapping("/category")
 

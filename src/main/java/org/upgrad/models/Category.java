@@ -7,6 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/***
+ * Category model class contain all the attributes to be mapped to all the fields in the users table in the database.
+ * Annotations are used to specify all the constraints to the table and table-columns in the database.
+ *          includes    default constructor,
+ *                      getter and setter
+ * **/
+
+
 @Entity
 @Table(name = "category")
 public class Category {

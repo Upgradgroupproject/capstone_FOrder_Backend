@@ -5,6 +5,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
+/***
+ * Category model as per the relation to Restaurants
+ *             includes category table and needed column as per schema, including java persistence bindings
+ *                      default constructor,
+ *                      getter and setter
+ * **/
+
+
 @Entity
 public class Payment {
 

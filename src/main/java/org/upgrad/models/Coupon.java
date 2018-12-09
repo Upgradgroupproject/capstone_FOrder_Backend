@@ -5,6 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/***
+ * Coupon model/class indicating % discount
+ *             includes coupon table and needed column as per schema, including java persistence bindings
+ *                      default constructor,
+ *                      getter and setter
+ * **/
+
+
 @Entity
 public class Coupon {
 

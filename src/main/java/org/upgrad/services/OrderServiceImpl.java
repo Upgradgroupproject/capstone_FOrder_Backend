@@ -12,6 +12,11 @@ import org.upgrad.requestResponseEntity.ItemQuantity;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Services/ Methods to call Repository or SQL scripts, these services are called from Order controller
+ *
+ * */
+
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService{
@@ -46,6 +51,9 @@ public class OrderServiceImpl implements OrderService{
 
     }
 
+    /**
+     * Method to update order with Parmanent address or addressid provided
+     * ***/
     @Override
     public Integer addOrderWithPermAddress(Integer addressId, Integer paymentId, Integer userId, ArrayList<ItemQuantity> itemQuantities,
                                            double bill, Integer couponId, double discount) {
@@ -67,6 +75,10 @@ public class OrderServiceImpl implements OrderService{
         return orderId;
     }
 
+    /**
+     * Method to update order without Parmanent address or when addressid is not provided
+     *          address is entered, ZIPCODE validation is available can return if found invalid,
+     * ***/
     @Override
     public Integer addOrder(String flatBuilNumber, String locality, String city, String zipCode, Integer stateId, String type,
                             Integer paymentId, Integer userId, List<ItemQuantity> itemQuantities, double bill, Integer couponId,

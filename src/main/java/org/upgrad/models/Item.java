@@ -6,6 +6,14 @@ import javax.persistence.*;
 import java.util.List;
 
 
+/***
+ * Item model/class:-
+ *             includes category table and needed column as per schema, price/type, including java persistence bindings
+ *                      default constructor,
+ *                      getter and setter
+ * **/
+
+
 @Entity
 @Table(name = "item")
 public class Item {

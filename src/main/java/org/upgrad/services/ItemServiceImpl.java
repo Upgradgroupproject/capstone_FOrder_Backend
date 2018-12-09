@@ -7,6 +7,11 @@ import org.upgrad.repositories.ItemRepository;
 
 import java.util.List;
 
+/*
+ * Services/ Methods to call Repository or SQL scripts, these services are called from Item controller
+ *
+ * */
+
 @Service
 public class ItemServiceImpl implements ItemService{
 

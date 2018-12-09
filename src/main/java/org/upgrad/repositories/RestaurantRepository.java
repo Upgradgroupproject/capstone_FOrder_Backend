@@ -21,9 +21,20 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
     @Query(nativeQuery = true,value="select * from restaurant where id=?1")
     Restaurant getRestaurantByRestaurantId(int restaurantId);
 
+    /**
+     * Query to retreve Restaurant
+     *            category name is matched to available restaurant name, need not to be equal, by ILIKE
+     *            if found returns respective Restaurant(s)
+     * ***/
 
     @Query(nativeQuery = true, value = "select * from restaurant where restaurant_name ILIKE %?1% ORDER BY restaurant_name")
     List<Restaurant> getRestaurantByName(String restaurantName);
+
+    /**
+     * Query to retreve Restaurant
+     *            category name is matched to available category, need not to be equal, by ILIKE
+     *            if found restaurant_category is looked for categories and respective Restaurant
+     * ***/
 
     @Query(nativeQuery = true, value = "select * from restaurant R inner join restaurant_category C on R.id = C.restaurant_id " +
             "inner join category N on  C.category_id = N.id where N.category_name ILIKE %?1% ORDER BY R.restaurant_name")
