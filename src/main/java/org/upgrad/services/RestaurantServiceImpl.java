@@ -51,6 +51,13 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     @Override
+    public Restaurant getRestaurantById(int restaurantId){
+
+        Restaurant restaurant = restaurantRepository.getRestaurantByRestaurantId (restaurantId);
+        return restaurant;
+    }
+
+    @Override
     public RestaurantResponseCategorySet getRestaurantDetails(int id) {
         Restaurant restaurant = restaurantRepository.getRestaurantByRestaurantId (id);
 
@@ -71,13 +78,6 @@ public class RestaurantServiceImpl implements RestaurantService{
                     restaurant.getAddress(), categorySet);
         }
         return restaurantResponseCategorySet;
-    }
-
-    @Override
-    public Restaurant getRestaurantById(int restaurantId){
-
-        Restaurant restaurant = restaurantRepository.getRestaurantByRestaurantId (restaurantId);
-        return restaurant;
     }
 
     @Override
