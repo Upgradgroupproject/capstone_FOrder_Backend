@@ -104,4 +104,62 @@ public class UserController {
         return new ResponseEntity<>("User with contact number "+contactNumber+" create",HttpStatus.CREATED);
     }
 
+    @PutMapping("/user")
+    @CrossOrigin
+    public ResponseEntity<?> update(@RequestParam String firstName,@RequestParam String lastName, @RequestParam String accessToken)
+    {
+        if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+            int userID=userAuthTokenService.getUserID(accessToken);
+            userService.updateUser(firstName,lastName,userID);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            User user = userService.findByUserID(userID);
+            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+        }
+    }
+    @PutMapping("/password")
+    @CrossOrigin
+    public ResponseEntity<?> updatePassword(@RequestParam String oldPassword,@RequestParam String newPassword,@RequestParam String accessToken )
+    {
+        int userID=0;
+        if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+             userID=userAuthTokenService.getUserID(accessToken);
+            String oldpasswordByUser=userService.getUserPassword(userID).toLowerCase().toString();
+            String encryptedpasword= Hashing.sha256()
+                    .hashString(oldPassword, Charsets.US_ASCII)
+                    .toString();
+            if(!oldpasswordByUser.equals(encryptedpasword))
+            {
+                return new ResponseEntity<>("Your password did not match to your old password!",HttpStatus.UNAUTHORIZED);
+            }
+            else if(userService.matchExpression("password",newPassword))
+            {
+                String encryptedNewpasword= Hashing.sha256()
+                        .hashString(newPassword, Charsets.US_ASCII)
+                        .toString();
+                userService.updatePassword(encryptedNewpasword,userID);
+            }
+            else
+            {
+                return new ResponseEntity<>("Weak password!",HttpStatus.UNAUTHORIZED);
+            }
+        }
+        return new ResponseEntity<>("Password updated successfully",HttpStatus.OK);
+
+    }
+
 }
