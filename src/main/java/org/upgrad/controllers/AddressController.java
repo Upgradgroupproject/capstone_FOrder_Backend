@@ -79,4 +79,37 @@ public class AddressController {
         return new ResponseEntity<>(lstPermAddress,HttpStatus.OK);
 
     }
+    @PutMapping("/address/{addressId}")
+    @CrossOrigin
+    public ResponseEntity<?> updateAddress(String flatBuildingNumber, String locality,  String city
+            ,String zipcode,  int stateId,@RequestParam int addressId,@RequestParam String accessToken)
+    {
+        if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+            int userID=userAuthTokenService.getUserID(accessToken);
+            if(!addressService.validateZipAddress(zipcode))
+            {
+                return new ResponseEntity<>("Invalid zip code!",HttpStatus.UNAUTHORIZED);
+            }
+            else{
+                Address strIsAddressPresent=addressService.getAddress(addressId);
+                if(strIsAddressPresent!=null)
+                {
+                    addressService.updateAddress(flatBuildingNumber,locality,city,zipcode,stateId,addressId);
+                }
+                else
+                {
+                    return new ResponseEntity<>("No address with this address id!",HttpStatus.NOT_FOUND);
+                }
+
+            }
+        }
+        return new ResponseEntity<>("Address has been updated successfully!",HttpStatus.CREATED);
+
+    }
+
 }

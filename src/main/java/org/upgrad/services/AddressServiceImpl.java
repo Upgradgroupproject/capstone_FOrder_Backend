@@ -58,4 +58,9 @@ public class AddressServiceImpl implements AddressService{
         return addressRepository.getAddress(addressId);
     }
 
+    @Override
+    public void updateAddress(String flatBuiltNumber, String locality, String city, String zipcode, int state_id,int addressId) {
+        addressRepository.updateAddress(flatBuiltNumber,locality,city,zipcode,state_id, addressId);
+    }
+
 }

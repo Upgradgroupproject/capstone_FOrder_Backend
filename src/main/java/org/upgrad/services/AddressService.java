@@ -12,5 +12,6 @@ public interface AddressService {
     public void addAddressType(String type, int user_id, int address_id);
     public List<Integer> getAddressId(int userId);
     Address getAddress(int addressId);
+    void updateAddress(String flatBuiltNumber, String locality, String city, String zipcode, int state_id,int addressId);
 
 }
