@@ -12,6 +12,7 @@ public interface RestaurantService {
     List<RestaurantResponse> getRestaurantByName(String restaurantName);
     List<RestaurantResponse> getRestaurantByCategory(String categoryName);
     RestaurantResponseCategorySet getRestaurantDetails(int restaurantId);
+    Restaurant getRestaurantById(int restaurantId);
     Restaurant updateRating(int restaurantRating, int restaurantId);
 
 }

@@ -2,6 +2,7 @@ package org.upgrad.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.upgrad.models.Restaurant;
 import org.upgrad.repositories.RestaurantRepository;
 import org.upgrad.requestResponseEntity.RestaurantResponse;
@@ -9,6 +10,7 @@ import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 
 import java.util.List;
 
+@Service
 public class RestaurantServiceImpl implements RestaurantService{
 
     @Autowired
@@ -47,6 +49,13 @@ public class RestaurantServiceImpl implements RestaurantService{
     @Override
     public RestaurantResponseCategorySet getRestaurantDetails(int restaurantId) {
         return null;
+    }
+
+    @Override
+    public Restaurant getRestaurantById(int restaurantId){
+        Restaurant restaurant = new Restaurant ();
+        //Restaurant restaurant = restaurantRepository.findRestaurantById(id);
+        return restaurant;
     }
 
     @Override
