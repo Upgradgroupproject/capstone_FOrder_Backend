@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.models.Address;
 import org.upgrad.services.AddressService;
+import org.upgrad.services.StateService;
 import org.upgrad.services.UserAuthTokenService;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class AddressController {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private StateService stateService;
 
     @PostMapping("address")
     @CrossOrigin
@@ -110,6 +114,36 @@ public class AddressController {
         }
         return new ResponseEntity<>("Address has been updated successfully!",HttpStatus.CREATED);
 
+    }
+    @DeleteMapping("/address/{addressId}")
+    @CrossOrigin
+    public ResponseEntity<?> deleteAddress(@RequestParam int addressId, @RequestParam String accessToken)
+    {
+        if(userAuthTokenService.isUserLoggedIn(accessToken) == null){
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }
+        else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
+            return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
+        }  else{
+            Address strIsAddressPresent=addressService.getAddress(addressId);
+            if(strIsAddressPresent!=null)
+            {
+                addressService.deleteAddress(addressId);
+            }
+            else
+            {
+                return new ResponseEntity<>("No address with this address id!",HttpStatus.NOT_FOUND);
+            }
+        }
+        return new ResponseEntity<>("Address has been deleted successfully!",HttpStatus.OK);
+    }
+
+    @GetMapping("states")
+    @CrossOrigin
+    public ResponseEntity<?> getAllStates()
+    {
+        List<String> lstStates=stateService.getAllStates();
+        return new ResponseEntity<>(lstStates,HttpStatus.OK);
     }
 
 }

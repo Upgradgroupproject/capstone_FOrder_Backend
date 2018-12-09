@@ -13,5 +13,6 @@ public interface AddressService {
     public List<Integer> getAddressId(int userId);
     Address getAddress(int addressId);
     void updateAddress(String flatBuiltNumber, String locality, String city, String zipcode, int state_id,int addressId);
+    public void deleteAddress(int addressId);
 
 }
