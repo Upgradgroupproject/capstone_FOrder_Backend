@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 import org.upgrad.models.Category;
 import org.upgrad.models.Restaurant;
 import org.upgrad.repositories.RestaurantRepository;
+import org.upgrad.requestResponseEntity.CategoryResponse;
 import org.upgrad.requestResponseEntity.RestaurantResponse;
 import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
@@ -52,8 +51,26 @@ public class RestaurantServiceImpl implements RestaurantService{
     }
 
     @Override
-    public RestaurantResponseCategorySet getRestaurantDetails(int restaurantId) {
-        return null;
+    public RestaurantResponseCategorySet getRestaurantDetails(int id) {
+        Restaurant restaurant = restaurantRepository.getRestaurantByRestaurantId (id);
+
+        if (restaurant != null) {
+
+            Set<CategoryResponse> categorySet = new HashSet<> ();
+            List<Category> categories = restaurant.getRestaurantCategories ();
+
+            for (Category category:categories) {
+
+                CategoryResponse categoryResponse = new CategoryResponse(category.getId(), category.getCategoryName(), category.getItems());
+                categorySet.add(categoryResponse);
+
+            }
+
+            restaurantResponseCategorySet = new RestaurantResponseCategorySet(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(), restaurant.getNumberUsersRated(),
+                    restaurant.getAddress(), categorySet);
+        }
+        return restaurantResponseCategorySet;
     }
 
     @Override

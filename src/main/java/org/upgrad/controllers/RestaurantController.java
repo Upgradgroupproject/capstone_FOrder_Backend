@@ -66,7 +66,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<?> getRestaurantByRestaurantId(@RequestParam("restaurantId") int restaurantId) {
+    public ResponseEntity<?> getRestaurantByRestaurantId(@PathVariable("restaurantId") int restaurantId) {
 
         if (restaurantService.getRestaurantById (restaurantId) == null) {
             return new ResponseEntity<> (restaurantService.getRestaurantById (restaurantId), HttpStatus.OK);
