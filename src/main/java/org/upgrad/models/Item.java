@@ -5,26 +5,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
 @Table(name = "item")
 public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private int id;
+    private String itemName;
 
-        private String itemName;
+    private int price;
 
-        private int price;
+    private String type;
 
-        private String type;
-
-//        @JsonIgnore
-//        @ManyToMany(mappedBy = "items")
-//        private List<Category> categories;
-
-    public Item() {
-    }
 
     public int getId() {
         return id;
@@ -58,11 +52,8 @@ public class Item {
         this.type = type;
     }
 
-//    public List<Category> getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(List<Category> categories) {
-//        this.categories = categories;
-//    }
+    public Item() {
+    }
+
 }
+

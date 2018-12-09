@@ -114,7 +114,7 @@ public class UserController {
         else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }  else{
-            int userID=userAuthTokenService.getUserID(accessToken);
+            int userID=userAuthTokenService.getUserId(accessToken);
             userService.updateUser(firstName,lastName,userID);
             try {
                 Thread.sleep(1000);
@@ -137,7 +137,7 @@ public class UserController {
         else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }  else{
-             userID=userAuthTokenService.getUserID(accessToken);
+             userID=userAuthTokenService.getUserId(accessToken);
             String oldpasswordByUser=userService.getUserPassword(userID).toLowerCase().toString();
             String encryptedpasword= Hashing.sha256()
                     .hashString(oldPassword, Charsets.US_ASCII)

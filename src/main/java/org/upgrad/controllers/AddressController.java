@@ -40,7 +40,7 @@ public class AddressController {
         else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }  else{
-            int userID=userAuthTokenService.getUserID(accessToken);
+            int userID=userAuthTokenService.getUserId(accessToken);
            if(!addressService.validateZipAddress(zipcode))
            {
                return new ResponseEntity<>("Invalid zip code!",HttpStatus.UNAUTHORIZED);
@@ -64,7 +64,7 @@ public class AddressController {
         } else if (userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt() != null) {
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         } else {
-            int userID = userAuthTokenService.getUserID(accessToken);
+            int userID = userAuthTokenService.getUserId(accessToken);
             List<Integer> lstAddressId = addressService.getAddressId(userID);
 
             if (lstAddressId.size() < 1) {
@@ -90,7 +90,7 @@ public class AddressController {
         else if(userAuthTokenService.isUserLoggedIn(accessToken).getLogoutAt()!=null){
             return new ResponseEntity<>("You have already logged out. Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }  else{
-            int userID=userAuthTokenService.getUserID(accessToken);
+            int userID=userAuthTokenService.getUserId(accessToken);
             if(!addressService.validateZipAddress(zipcode))
             {
                 return new ResponseEntity<>("Invalid zip code!",HttpStatus.UNAUTHORIZED);
