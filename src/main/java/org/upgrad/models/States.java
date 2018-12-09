@@ -3,6 +3,15 @@ package org.upgrad.models;
 
 import javax.persistence.*;
 
+
+/***
+ * State model as per the relation to Restaurants
+ *             includes category table and needed column as per schema, including java persistence bindings,
+ *                          statename mapped to id,
+ *                      default constructor,
+ *                      getter and setter
+ * **/
+
 @Entity
 @Table(name = "state")
 public class States {
