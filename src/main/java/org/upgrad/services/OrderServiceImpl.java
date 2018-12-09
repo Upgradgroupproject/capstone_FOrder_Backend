@@ -51,6 +51,9 @@ public class OrderServiceImpl implements OrderService{
                                            double bill, Integer couponId, double discount) {
 
 
+        if(couponId==null ){
+            couponId =1;
+        }
         orderRepository.saveOrder(couponId, discount, bill, userId, paymentId,  addressId);
         Integer orderId = orderRepository.findLatestOrderId();
 
@@ -76,6 +79,9 @@ public class OrderServiceImpl implements OrderService{
             type = "temp";
         }
         userAddressRepository.addAddressType(type, userId, lastAddedAddressId);
+        if(couponId==null ){
+            couponId =1;
+        }
         orderRepository.saveOrder(couponId, discount, bill, userId, paymentId,  lastAddedAddressId);
 
         Integer latestOrderId = orderRepository.findLatestOrderId();
