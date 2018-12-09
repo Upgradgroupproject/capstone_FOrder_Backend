@@ -9,21 +9,9 @@ import java.util.List;
 @Entity
 @Table(name = "item")
 public class Item {
-@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-     public Item(){
-    }
-public Item(int restaurantId){
-    this.restaurantId = restaurantId;
-
-
-    public Integer getTop5ItemsbyPopularity(integer id ){
-        return retaurantId; 
-    }
-    public void setTop5ItemsbyPopularity(Integer id){
-        this.id=retaurantId;
-    }
 
         private String itemName;
 
@@ -34,9 +22,6 @@ public Item(int restaurantId){
 //        @JsonIgnore
 //        @ManyToMany(mappedBy = "items")
 //        private List<Category> categories;
-
-    public Item() {
-    }
 
     public int getId() {
         return id;
@@ -68,6 +53,20 @@ public Item(int restaurantId){
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public Item(){
+    }
+    
+    public Item(int restaurantId){
+        this.restaurantId = restaurantId;
+    }
+
+    public Integer getTop5ItemsbyPopularity(integer id ){
+        return retaurantId; 
+    }
+    public void setTop5ItemsbyPopularity(Integer id){
+        this.id=retaurantId;
     }
 
 //    public List<Category> getCategories() {
