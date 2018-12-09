@@ -12,6 +12,12 @@ import org.upgrad.requestResponseEntity.RestaurantResponseCategorySet;
 
 import java.util.*;
 
+/*
+ * Services/ Methods to call Repository or SQL scripts, these services are called from Restaurant controller
+ *
+ * */
+
+
 @Service
 public class RestaurantServiceImpl implements RestaurantService{
 
@@ -26,27 +32,116 @@ public class RestaurantServiceImpl implements RestaurantService{
 
     private RestaurantResponseCategorySet restaurantResponseCategorySet;
 
+
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return List<RestaurantResponse>
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds category information
+     *         and returns List<RestaurantResponse>
+     * */
+
     @Override
     public List<RestaurantResponse> getAllRestaurant() {
 
-        // to update
         restaurants = restaurantRepository.getAllRestaurant ();
-        //this.getRestaurantResponseList(restaurants);
+
+        restaurantResponseList = new ArrayList<>();
+
+        for (Restaurant restaurant: restaurants) {
+            int categories = 0;
+            List<String> restaurantCategory = new ArrayList<String> ();
+
+            for (Category category : restaurant.getRestaurantCategories ()) {
+                if (restaurant.getRestaurantCategories().size() > categories) {
+                    restaurantCategory.add (category.getCategoryName());
+                    categories++;
+                } else {
+                    restaurantCategory.add(category.getCategoryName());
+                }
+            }
+
+            RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), restaurantCategory.toString());
+            restaurantResponseList.add(restaurantResponse);
+
+        }
+
         return restaurantResponseList;
     }
 
+
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return List<RestaurantResponse>
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds category information
+     *         and returns List<RestaurantResponse>
+     * */
     @Override
     public List<RestaurantResponse> getRestaurantByName(String restaurantName) {
 
-        restaurant = restaurantRepository.getRestaurantByName(restaurantName);
-        //this.restaurantResponseList = restaurants;
+        restaurants = restaurantRepository.getRestaurantByName (restaurantName);
+
+        restaurantResponseList = new ArrayList<>();
+
+        for (Restaurant restaurant: restaurants) {
+            int categories = 0;
+            List<String> restaurantCategory = new ArrayList<String> ();
+
+            for (Category category : restaurant.getRestaurantCategories ()) {
+                if (restaurant.getRestaurantCategories().size() > categories) {
+                    restaurantCategory.add (category.getCategoryName());
+                    categories++;
+                } else {
+                    restaurantCategory.add(category.getCategoryName());
+                }
+            }
+
+            RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), restaurantCategory.toString());
+            restaurantResponseList.add(restaurantResponse);
+
+        }
+
         return restaurantResponseList;
     }
 
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return List<RestaurantResponse>
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds category information
+     *         and returns List<RestaurantResponse>
+     * */
     @Override
     public List<RestaurantResponse> getRestaurantByCategory(String categoryName) {
-        //restaurants = restaurantRepository.findRestaurantByCategory(categoryName);
-        //this.restaurantResponseList = restaurants;
+        restaurants = restaurantRepository.getRestaurantByCategory(categoryName);
+
+        restaurantResponseList = new ArrayList<>();
+
+        for (Restaurant restaurant: restaurants) {
+            int categories = 0;
+            List<String> restaurantCategory = new ArrayList<String> ();
+
+            for (Category category : restaurant.getRestaurantCategories ()) {
+                if (restaurant.getRestaurantCategories().size() > categories) {
+                    restaurantCategory.add (category.getCategoryName());
+                    categories++;
+                } else {
+                    restaurantCategory.add(category.getCategoryName());
+                }
+            }
+
+            RestaurantResponse restaurantResponse = new RestaurantResponse(restaurant.getId(), restaurant.getRestaurantName(),
+                    restaurant.getPhotoUrl(), restaurant.getUserRating(), restaurant.getAvgPrice(),
+                    restaurant.getNumberUsersRated(), restaurant.getAddress(), restaurantCategory.toString());
+            restaurantResponseList.add(restaurantResponse);
+
+        }
+
         return restaurantResponseList;
     }
 
@@ -57,6 +152,13 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurant;
     }
 
+    /*
+     * Following Function retrives all restaurants
+     *     as per requirement it should return RestaurantResponseCategorySet
+     *         RestaurantResponse combines Restaurant and categories
+     *         This method retrives List<Restaurant> from DB then , adds categorySet information
+     *         and returns RestaurantResponseCategorySet
+     * */
     @Override
     public RestaurantResponseCategorySet getRestaurantDetails(int id) {
         Restaurant restaurant = restaurantRepository.getRestaurantByRestaurantId (id);

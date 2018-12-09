@@ -15,6 +15,13 @@ import org.upgrad.services.UserAuthTokenService;
 
 import java.util.List;
 
+/*
+ * This endpoint is used to check and update Restaurant details
+ * Access token is used here for authentication purpose so that only logged in customer is able to change User rating
+ *
+ */
+
+
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
@@ -29,43 +36,45 @@ public class RestaurantController {
     @Autowired
     private UserAuthTokenService userAuthTokenService;
 
-    @GetMapping("/restaurant")
+    @GetMapping("")
     public ResponseEntity<?> getAllRestaurant() {
 
         return new ResponseEntity<> (restaurantService.getAllRestaurant (), HttpStatus.OK);
 
     }
 
-    @GetMapping("/restaurant/name/{restaurantName}")
-    public ResponseEntity<?> getRestaurantByName(@PathVariable("RestaurantName") String restaurantName) {
+    @GetMapping("/name/{restaurantName}")
+    public ResponseEntity<?> getRestaurantByName(@PathVariable("restaurantName") String restaurantName) {
 
         if (("restaurantName") == null) {
-            return new ResponseEntity<> ("No Restaurant under this name!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<> ("No Restaurant by this name!", HttpStatus.NOT_FOUND);
         } else {
 
             return new ResponseEntity<> (restaurantService.getRestaurantByName (restaurantName), HttpStatus.OK);
         }
     }
 
-    @GetMapping("/restaurant/category/{categoryName}")
+    @GetMapping("/category/{categoryName}")
     public ResponseEntity<?> getAllRestaurantByCategory(@PathVariable("categoryName") String categoryName) {
 
         if (("catergoryname") == null) {
+
             return new ResponseEntity<> ("No Restaurant under this category!", HttpStatus.NOT_FOUND);
+
         } else {
 
-            List<RestaurantResponse> restaurantResponse = restaurantService.getRestaurantByCategory (categoryName);
+            List<RestaurantResponse> restaurantResponse = restaurantService.getRestaurantByCategory(categoryName);
 
             if (restaurantResponse == null || restaurantResponse.size () == 0) {
                 return new ResponseEntity<> ("No Restaurant by this name!", HttpStatus.NOT_FOUND);
             } else {
 
-                return new ResponseEntity<> (restaurantService.getRestaurantByCategory (categoryName), HttpStatus.OK);
+                return new ResponseEntity<> (restaurantService.getRestaurantByCategory(categoryName), HttpStatus.OK);
             }
         }
     }
 
-    @GetMapping("/restaurant/{restaurantId}")
+    @GetMapping("/{restaurantId}")
     public ResponseEntity<?> getRestaurantByRestaurantId(@PathVariable("restaurantId") int restaurantId) {
 
         if (restaurantService.getRestaurantById (restaurantId) == null) {
@@ -77,7 +86,7 @@ public class RestaurantController {
         }
     }
 
-    @PutMapping("/restaurant/{restaurantId}")
+    @PutMapping("/{restaurantId}")
     public ResponseEntity<?> updateRestaurantDetails(@RequestParam("rating") String rating, @PathVariable("restaurantId") int restaurantId,
                                                      @RequestHeader String accessToken) {
 

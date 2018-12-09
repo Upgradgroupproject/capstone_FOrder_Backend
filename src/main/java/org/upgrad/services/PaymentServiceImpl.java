@@ -6,6 +6,12 @@ import org.upgrad.repositories.PaymentRepository;
 
 import java.util.List;
 
+/*
+ * Services/ Methods to call Repository or SQL scripts, these services are called from Payment controller
+ *
+ * */
+
+
 @Service
 public class PaymentServiceImpl implements PaymentService{
 

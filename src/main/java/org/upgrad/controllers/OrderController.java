@@ -14,6 +14,14 @@ import org.upgrad.services.UserAuthTokenService;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * This endpoint is used to check and place Orders
+ * Access token is used here for authentication purpose so that only logged in customer is able to check the old orders or place order
+ * Coupon Id can be checked by {couponName}"
+ */
+
+
+
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -65,8 +73,8 @@ public class OrderController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> addOrder(@RequestParam("addressId") Integer addressId,
-                                      String flatBuilNo, String locality, String city, String zipcode, Integer stateId,
+    public ResponseEntity<?> addOrder(Integer addressId,String flatBuilNo, String locality,
+                                      String city, String zipcode, Integer stateId,
                                       String type, @RequestParam("paymentId") Integer paymentId,
                                       @RequestBody ArrayList<ItemQuantity> itemQuantities, @RequestParam("bill") Double bill,
                                       Integer couponId, @RequestParam("discount") Double discount,
@@ -83,13 +91,12 @@ public class OrderController {
 
         } else {
 
-            Integer placedOrderId; // to return
+            Integer placedOrderId;
             Integer userId = userAuthTokenService.getUserId(accessToken);
 
             if (addressId ==null) {
 
                 if (zipcode == null || addressService.validateZipAddress (zipcode)) {
-
                     return new ResponseEntity<>("Invalid zip code!", HttpStatus.BAD_REQUEST);
                 }
                 placedOrderId = orderService.addOrder(flatBuilNo, locality, city, zipcode, stateId, type,

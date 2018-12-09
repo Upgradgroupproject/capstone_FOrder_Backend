@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.upgrad.models.Category;
 import org.upgrad.services.CategoryService;
 
+
+/*
+ * This endpoint is used to insert check Categories available and respective ids
+ *
+ */
+
 @RestController
 @RequestMapping("/category")
 
@@ -20,12 +26,12 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/category")
+    @GetMapping("")
     public ResponseEntity<?> getAllCategories() {
         return new ResponseEntity<> (categoryService.getAllCategories (), HttpStatus.OK);
     }
 
-    @GetMapping("/category/{categoryName}")
+    @GetMapping("/{categoryName}")
     public ResponseEntity<?> getCategoriesByName(@PathVariable("categoryName") String categoryName) {
 
         Category category = categoryService.getCategory (categoryName);

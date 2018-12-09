@@ -7,6 +7,11 @@ import org.upgrad.repositories.CategoryRepository;
 
 import java.util.List;
 
+/*
+ * Services/ Methods to call Repository or SQL scripts, these services are called from Category controller
+ *
+ * */
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 

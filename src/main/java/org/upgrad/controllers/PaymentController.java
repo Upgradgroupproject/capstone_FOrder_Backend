@@ -10,6 +10,13 @@ import org.upgrad.services.UserAuthTokenService;
 
 import java.util.List;
 
+/*
+ * This endpoint is used to check available Payment Options
+ * Access token is used here for authentication purpose so that only logged in customer is able to check payment options
+ *
+ */
+
+
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {

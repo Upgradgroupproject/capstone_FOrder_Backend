@@ -6,6 +6,15 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+/***
+ * Order model/class
+ *             includes category table and needed column as per schema, including java persistence bindings
+ *                        coupon_id,user_id,payment_id,address,order item
+ *                      default constructor,
+ *                      getter and setter
+ * **/
+
+
 @Entity
 @Table(name="orders")
 public class Order {
