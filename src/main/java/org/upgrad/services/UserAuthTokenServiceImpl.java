@@ -44,7 +44,7 @@ public class UserAuthTokenServiceImpl implements UserAuthTokenService {
     }
 
     @Override
-    public int getUserID(String accessToken) {
+    public int getUserId(String accessToken) {
         return userAuthTokenRepository.getUserID(accessToken);
     }
 
